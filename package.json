@@ -1,0 +1,30 @@
+{
+  "name": "ssh2-exec",
+  "version": "0.0.0",
+  "description": "Transparent use of the `fs` module locally or over SSH",
+  "keywords": ["child process", "fs", "ssh2", "ssh"],
+  "homepage": "http://www.adaltas.com/projects/node-ssh2-fs/",
+  "author": "David Worms <david@adaltas.com>",
+  "contributors": [],
+  "engines": {
+    "node": ">=0.10.1"
+  },
+  "main": "./lib/index",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wdavidw/node-ssh2-fs.git"
+  },
+  "dependencies": {
+    "ssh2": "latest"
+  },
+  "devDependencies": {
+    "coffee-script": "latest",
+    "mocha": "latest",
+    "ssh2-exec": "latest",
+    "should": "latest"
+  },
+  "optionalDependencies": {},
+  "scripts": {
+    "test": "make test"
+  }
+}
