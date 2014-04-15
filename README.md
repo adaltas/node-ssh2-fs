@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/wdavidw/node-ssh2-exec.png)][travis]
+[![Build Status](https://secure.travis-ci.org/wdavidw/node-ssh2-fs.png)][travis]
 
 Node.js ssh2-fs
 =================
@@ -40,7 +40,7 @@ Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown",
 Examples
 --------
 
-Calling `ssh2-fs.`:
+The example is using both the "ssh2-connect" and "ssh2-fs" modules.
 
 ```js
 connect = require('ssh2-connect');
