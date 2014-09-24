@@ -21,6 +21,7 @@
     "coffee-script": "latest",
     "mocha": "latest",
     "ssh2-exec": "latest",
+    "ssh2-they": "latest",
     "should": "latest"
   },
   "optionalDependencies": {},
