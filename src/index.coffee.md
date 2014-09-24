@@ -397,7 +397,7 @@ fs.createReadStream sshOrNull, 'test.out', (err, stream) ->
             s = sftp.createReadStream source, options
             s.emit = ( (emit) ->
               (key, val) ->
-                if key is 'error' and val is undefined
+                if key is 'error' and val?.message is 'Failure'
                   val = new Error "EISDIR, read"
                   val.errno = 28
                   val.code = 'EISDIR'
