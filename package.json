@@ -15,7 +15,7 @@
     "url": "git://github.com/wdavidw/node-ssh2-fs.git"
   },
   "dependencies": {
-    "ssh2": "latest"
+    "ssh2": "^0.3.6"
   },
   "devDependencies": {
     "coffee-script": "latest",
