@@ -7,8 +7,7 @@ scratch = "/tmp/mecano-test"
 
 module.exports = (callback) ->
     (ssh, next) ->
-      @timeout 10000
       @scratch = scratch
-      exec "rm -rdf #{scratch}", ssh: ssh, (err) =>
-        exec "mkdir -p #{scratch}", ssh: ssh, (err) =>
+      exec ssh, "rm -rdf #{scratch}", (err) =>
+        exec ssh, "mkdir -p #{scratch}", (err) =>
           callback.call @, ssh, next
