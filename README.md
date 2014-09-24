@@ -1,13 +1,11 @@
 [![Build Status](https://secure.travis-ci.org/wdavidw/node-ssh2-fs.png)][travis]
 
-Node.js ssh2-fs
-=================
+# Node.js ssh2-fs
 
 The Node.js ssh2-fs package extends the [`ssh2`][ssh2] module to provide 
 transparent of the `fs` and module either locally or over SSH. 
 
-Installation
-------------
+## Installation
 
 This is OSS and licensed under the [new BSD license][license].
 
@@ -15,10 +13,9 @@ This is OSS and licensed under the [new BSD license][license].
 npm install ssh2-fs
 ```
 
-Usage
------
+## Usage
 
-The API borrows from the `fs` module withthe additionnal first argument. The 
+The API borrows from the `fs` module with the additionnal first argument. The 
 function run locally when "null" or it run over SSH when an [`ssh2`][ssh2] 
 connection. Otherwise the API is strictly the same with a few exception due to
 the SSH2 API:
@@ -37,8 +34,7 @@ Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown",
 "futimes", "fsync", "write", "read", "appendFile", "watchFile", "unwatchFile",
 "watch".
 
-Examples
---------
+## Examples
 
 The example is using both the "ssh2-connect" and "ssh2-fs" modules.
 
@@ -52,8 +48,7 @@ connect({host: 'localhost'}, function(err, ssh){
 });
 ```
 
-Development
------------
+## Development
 
 Tests are executed with mocha. To install it, simple run `npm install`, it will install
 mocha and its dependencies in your project "node_modules" directory.
@@ -73,8 +68,7 @@ make build
 The test suite is run online with [Travis][travis] against Node.js version 0.9, 
 0.10 and 0.11.
 
-Contributors
-------------
+## Contributors
 
 *   David Worms: <https://github.com/wdavidw>
 
