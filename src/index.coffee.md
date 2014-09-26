@@ -218,8 +218,16 @@ where files is an array of the names of the files in the directory excluding
         else
           ssh.sftp (err, sftp) ->
             return callback err if err
+            not_a_dir = (err) ->
+              sftp.stat path, (er, attr) ->
+                if not er and not attr.isDirectory()
+                  err = Error "ENOTDIR, readdir '#{path}'"
+                  err.errno = 27
+                  err.code = 'ENOTDIR'
+                  err.path = path
+                callback err
             sftp.opendir path, (err, handle) ->
-              return callback err if err
+              return not_a_dir err if err
               sftp.readdir handle, (err, files) ->
                 sftp.close handle, (err) ->
                   return callback err if err

@@ -13,3 +13,11 @@ describe 'readdir', ->
       files.length.should.be.above 5
       files.indexOf(path.basename __filename).should.not.equal -1
       next()
+  
+  they 'error on file', test (ssh, next) ->
+    fs.readdir ssh, "#{__filename}", (err, files) ->
+      err.message.should.eql "ENOTDIR, readdir '#{__filename}'"
+      err.errno.should.equal 27
+      err.code.should.equal 'ENOTDIR'
+      err.path.should.equal __filename
+      next()
