@@ -17,7 +17,7 @@ describe 'readdir', ->
   they 'error on file', test (ssh, next) ->
     fs.readdir ssh, "#{__filename}", (err, files) ->
       err.message.should.eql "ENOTDIR, readdir '#{__filename}'"
-      err.errno.should.equal 27
+      # err.errno.should.equal 27 # Broken in latest Node.js 0.11.13
       err.code.should.equal 'ENOTDIR'
       err.path.should.equal __filename
       next()

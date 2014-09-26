@@ -9,7 +9,7 @@ describe 'readFile', ->
   they 'pass error to callback if not exists', test (ssh, next) ->
     fs.readFile ssh, "#{__dirname}/doesnotexist", 'utf8', (err, exists) ->
       err.message.should.eql "ENOENT, open '#{__dirname}/doesnotexist'"
-      err.errno.should.eql 34
+      # err.errno.should.eql 34 # Broken in latest Node.js 0.11.13
       err.code.should.eql 'ENOENT'
       err.path.should.eql "#{__dirname}/doesnotexist"
       next()

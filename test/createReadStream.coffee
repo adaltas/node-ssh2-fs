@@ -10,7 +10,7 @@ describe 'createReadStream', ->
     fs.createReadStream ssh, "#{@scratch}/not_here", (err, stream) =>
       stream.on 'error', (err) =>
         err.message.should.eql "ENOENT, open '#{@scratch}/not_here'"
-        err.errno.should.eql 34
+        # err.errno.should.eql 34 # Broken in latest Node.js 0.11.13
         err.code.should.eql 'ENOENT'
         err.path.should.eql "#{@scratch}/not_here"
         next()
@@ -19,6 +19,6 @@ describe 'createReadStream', ->
     fs.createReadStream ssh, __dirname, (err, stream) =>
       stream.on 'error', (err) =>
         err.message.should.eql "EISDIR, read"
-        err.errno.should.eql 28
+        # err.errno.should.eql 28 # Broken in latest Node.js 0.11.13
         err.code.should.eql 'EISDIR'
         next()
