@@ -5,7 +5,7 @@
 
 # `ssh2-fs.rename(sshOrNull, oldPath, newPath, callback)`
 
-No arguments other than a possible exception are given to the completion 
+No arguments other than a possible exception are given to the completion
 callback. 
 
       rename: (ssh, source, destination, callback) ->
@@ -20,7 +20,8 @@ callback.
 
 # `ssh2-fs.chown(ssh, path, uid, gid, callback)`
 
-No arguments other than a possible exception are given to the completion callback. 
+No arguments other than a possible exception are given to the completion
+callback. 
 
       chown: (ssh, path, uid, gid, callback) ->
         return callback new Error 'Either option "uid" or "gid" is required' unless uid or gid
@@ -36,7 +37,8 @@ No arguments other than a possible exception are given to the completion callbac
 
 # `ssh2-fs.chmod(ssh, path, options, callback)`
 
-No arguments other than a possible exception are given to the completion callback. 
+No arguments other than a possible exception are given to the completion
+callback. 
 
       chmod: (ssh, path, mode, callback) ->
         unless ssh
@@ -51,7 +53,7 @@ No arguments other than a possible exception are given to the completion callbac
 
 # `ssh2-fs.stat(ssh, path, callback)`
 
-The callback gets two arguments (err, stats) where stats is a fs.Stats object. 
+The callback gets two arguments (err, stats) where stats is a fs.Stats object.
 See the fs.Stats section below for more information.
 
       stat: (ssh, path, callback) ->
@@ -77,8 +79,8 @@ See the fs.Stats section below for more information.
 
 # `ssh2-fs.(ssh, path, callback)`
 
-The callback gets two arguments (err, stats) where stats is a fs.Stats object. 
-lstat() is identical to stat(), except that if path is a symbolic link, then 
+The callback gets two arguments (err, stats) where stats is a fs.Stats object.
+lstat() is identical to stat(), except that if path is a symbolic link, then
 the link itself is stat-ed, not the file that it refers to. 
 
       lstat: (ssh, path, callback) ->
@@ -97,7 +99,7 @@ the link itself is stat-ed, not the file that it refers to.
 
 # `ssh2-fs.unlink(ssh, source, callback)`
 
-No arguments other than a possible exception are given to the completion 
+No arguments other than a possible exception are given to the completion
 callback.
 
       unlink: (ssh, source, callback) ->
@@ -112,11 +114,11 @@ callback.
 
 # `ssh2-fs.symlink(ssh, srcpath, linkPath, callback)`
 
-No arguments other than a possible exception are given to the completion 
-callback. The type argument can be set to 'dir', 'file', or 'junction' 
-(default is 'file') and is only available on Windows (ignored on other 
-platforms). Note that Windows junction points require the destination path to 
-be absolute. When using 'junction', the destination argument will automatically 
+No arguments other than a possible exception are given to the completion
+callback. The type argument can be set to 'dir', 'file', or 'junction'
+(default is 'file') and is only available on Windows (ignored on other
+platforms). Note that Windows junction points require the destination path to
+be absolute. When using 'junction', the destination argument will automatically
 be normalized to absolute path. 
 
       symlink: (ssh, srcpath, dstpath, callback) ->
@@ -147,7 +149,7 @@ The callback gets two arguments (err, linkString).
 
 # `ssh2-fs.unlink(ssh, path, callback)`
 
-No arguments other than a possible exception are given to the completion 
+No arguments other than a possible exception are given to the completion
 callback.
 
       unlink: (ssh, path, callback) ->
@@ -163,7 +165,7 @@ callback.
 
 # `ssh2-fs.mkdir(ssh, path, [options], callback)`
 
-No arguments other than a possible exception are given to the completion 
+No arguments other than a possible exception are given to the completion
 callback. mode defaults to 0777.
 
 Note, if option is not an object, it is considered to be the permission mode.
@@ -208,8 +210,8 @@ Note, if option is not an object, it is considered to be the permission mode.
 
 # `ssh2-fs.readdir(path, callback)`
 
-Reads the contents of a directory. The callback gets two arguments (err, files) 
-where files is an array of the names of the files in the directory excluding 
+Reads the contents of a directory. The callback gets two arguments (err, files)
+where files is an array of the names of the files in the directory excluding
 '.' and '..'. 
 
       readdir: (ssh, path, callback) ->
@@ -239,8 +241,8 @@ where files is an array of the names of the files in the directory excluding
 
 *   `filename` String   
 *   `options` Object   
-*    `options.encoding` String | Null default = null   
-*    `options.flag` String default = 'r'   
+*   `options.encoding` String | Null default = null   
+*   `options.flag` String default = 'r'   
 *   `callback` Function   
 
 Asynchronously reads the entire contents of a file.
@@ -276,17 +278,18 @@ Asynchronously reads the entire contents of a file.
 
 # `ssh2-fs.writeFile(ssh, path, content, [options], callback)`
 
-*   `filename` String
-*   `data` String | Buffer
-*   `options` Object
-*   `options.encoding` String | Null default = 'utf8'
-*   `options.mode` Number default = 438 (aka 0666 in Octal)
-*   `options.flag` String default = 'w'
-*   `callback` Function
+*   `filename` String   
+*   `data` String | Buffer   
+*   `options` Object   
+*   `options.encoding` String | Null default = 'utf8'   
+*   `options.mode` Number default = 438 (aka 0666 in Octal)   
+*   `options.flag` String default = 'w'   
+*   `callback` Function   
 
-Asynchronously writes data to a file, replacing the file if it already exists. data can be a string or a buffer.
+Asynchronously writes data to a file, replacing the file if it already exists.
+data can be a string or a buffer.
 
-The encoding option is ignored if data is a buffer. It defaults to 'utf8'. 
+The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
 
       writeFile: (ssh, source, content, options, callback) ->
         if arguments.length is 4
@@ -364,7 +367,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
 *   `err`         Error object if any.   
 *   `exists`      True if the file exists.   
 
-Test whether or not the given path exists by checking with the file system. 
+Test whether or not the given path exists by checking with the file system.
 Then call the callback argument with an error and either true or false.
 
       exists: (ssh, path, callback) ->
@@ -380,10 +383,10 @@ Then call the callback argument with an error and either true or false.
 
 # `ssh2-fs.createReadStream(ssh, path, [options], callback)`
 
-Pass a new ReadStream object (See Readable Stream) to the completion callback. 
+Pass a new ReadStream object (See Readable Stream) to the completion callback.
 
 This differs from the original `fs` API which return the Readable Stream instead
-of passing it to the completion callback, this is internally due to the ssh2 
+of passing it to the completion callback, this is internally due to the ssh2
 API.
 
 Example:   
@@ -424,10 +427,10 @@ fs.createReadStream sshOrNull, 'test.out', (err, stream) ->
 
 # `createWriteStream(ssh, path, [options], callback)`
 
-Pass a new WriteStream object (See Writable Stream) to the completion callback. 
+Pass a new WriteStream object (See Writable Stream) to the completion callback.
 
 This differs from the original `fs` API which return the Writable Stream instead
-of passing it to the completion callback, this is internally due to the ssh2 
+of passing it to the completion callback, this is internally due to the ssh2
 API.
 
 Example:   
