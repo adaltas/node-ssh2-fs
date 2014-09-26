@@ -11,5 +11,5 @@ module.exports = (callback) ->
       @scratch = "#{scratch}-#{i++}"
       exec ssh, "mkdir -p #{@scratch}", (err) =>
         callback.call @, ssh, (err) =>
-          exec ssh, "rm -rdf #{@scratch}", (cleanerr) =>
+          exec ssh, "rm -rf #{@scratch}", (cleanerr) =>
             next err or cleanerr
