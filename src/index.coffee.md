@@ -13,6 +13,7 @@ callback.
           fs.rename source, destination, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             sftp.rename source, destination, (err) ->
               sftp.end()
@@ -29,6 +30,7 @@ callback.
           fs.chown path, uid, gid, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.chown path, uid, gid, (err) ->
@@ -45,6 +47,7 @@ callback.
           fs.chmod path, mode, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.chmod path, mode, (err) ->
@@ -67,6 +70,7 @@ See the fs.Stats section below for more information.
         else
           # { size: 646, uid: 501, gid: 20, permissions: 16877, 
           # atime: 1362003965, mtime: 1359498568 }
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.stat path, (err, attr) ->
@@ -88,6 +92,7 @@ the link itself is stat-ed, not the file that it refers to.
           fs.lstat path, (err, stat) ->
             callback err, stat
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.lstat path, (err, attr) ->
@@ -107,6 +112,7 @@ callback.
           fs.unlink source, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             sftp.unlink source, (err) ->
               sftp.end()
@@ -126,6 +132,7 @@ be normalized to absolute path.
           fs.symlink srcpath, dstpath, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.symlink srcpath, dstpath, (err) ->
@@ -141,6 +148,7 @@ The callback gets two arguments (err, linkString).
           fs.readlink path, (err, target) ->
             callback err, target
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.readlink path, (err, target) ->
@@ -157,6 +165,7 @@ callback.
           fs.unlink path, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.unlink path, (err) ->
@@ -183,6 +192,7 @@ Note, if option is not an object, it is considered to be the permission mode.
           fs.mkdir path, options.mode, (err) ->
             callback err
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             mkdir = ->
@@ -218,6 +228,7 @@ where files is an array of the names of the files in the directory excluding
         unless ssh
           fs.readdir path, callback
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             not_a_dir = (err) ->
@@ -258,6 +269,7 @@ Asynchronously reads the entire contents of a file.
           fs.readFile path, options.encoding, (err, content) ->
             callback err, content
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             s = sftp.createReadStream path, options
@@ -324,6 +336,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
             callback err
           write()
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             write = ->
@@ -375,6 +388,7 @@ Then call the callback argument with an error and either true or false.
           fs.exists path, (exists) ->
             callback null, exists
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             sftp.stat path, (err, attr) ->
@@ -403,6 +417,7 @@ fs.createReadStream sshOrNull, 'test.out', (err, stream) ->
         unless ssh
           callback null, fs.createReadStream source, options
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             s = sftp.createReadStream source, options
@@ -447,6 +462,7 @@ misc.file.createWriteStream sshOrNull, 'test.out', (err, stream) ->
         unless ssh
           callback null, fs.createWriteStream(path, options)
         else
+          return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
             return callback err if err
             ws = sftp.createWriteStream(path, options)
