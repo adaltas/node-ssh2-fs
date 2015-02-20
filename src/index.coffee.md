@@ -181,6 +181,10 @@ In SSH, options is an [ATTR SSH2 object][attr] and may contains such attributes 
 'uid', 'gid' and 'mode'. If option is not an object, it is considered to be the
 permission mode.
 
+For the sake of compatibility, the local mode also accept additionnal options
+than mode. Additionnal supported options are "uid' and "guid". It differs from
+the native Node.js API which only accept a permission mode.
+
       mkdir: (ssh, path, options, callback) ->
         if arguments.length is 3
           callback = options
@@ -190,9 +194,12 @@ permission mode.
         if options.permissions
           process.stderr.write 'Deprecated, use mode instead of permissions'
           options.mode = options.permissions
+        options.mode = parseInt options.mode, 8 if typeof options.mode is 'string'
         unless ssh
           fs.mkdir path, options.mode, (err) ->
-            callback err
+            return callback err if err
+            return callback() unless options.uid or options.gid
+            fs.chown path, options.uid, options.gid, callback
         else
           return callback Error 'Closed SSH Connection' if ssh._state is 'closed'
           ssh.sftp (err, sftp) ->
