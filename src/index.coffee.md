@@ -177,7 +177,9 @@ callback.
 No arguments other than a possible exception are given to the completion
 callback. mode defaults to 0777.
 
-Note, if option is not an object, it is considered to be the permission mode.
+In SSH, options is an [ATTR SSH2 object][attr] and may contains such attributes as
+'uid', 'gid' and 'mode'. If option is not an object, it is considered to be the
+permission mode.
 
       mkdir: (ssh, path, options, callback) ->
         if arguments.length is 3
@@ -202,16 +204,6 @@ Note, if option is not an object, it is considered to be the permission mode.
                   err.errno = 47
                   err.code = 'EEXIST'
                   err.path = path
-                return finish err if err
-                chown()
-            chown = ->
-              return chmod() unless options.uid or options.gid
-              sftp.chown path, options.uid, options.gid, (err) ->
-                return finish err if err
-                chmod()
-            chmod = ->
-              return finish() unless options.mode
-              sftp.chmod path, options.mode, (err) ->
                 finish err
             finish = (err) ->
               sftp.end()
@@ -470,7 +462,7 @@ misc.file.createWriteStream sshOrNull, 'test.out', (err, stream) ->
               sftp.end()
             callback null, ws
 
-
+[attr]: https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md#attrs
 
 
 

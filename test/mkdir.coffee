@@ -18,3 +18,11 @@ describe 'mkdir', ->
         # err.errno.should.eql 47 # Broken in latest Node.js 0.11.13
         err.code.should.eql 'EEXIST'
         next()
+
+  they 'set mode', test (ssh, next) ->
+    fs.mkdir ssh, "#{@scratch}/mode_dir", 0o0714, (err) =>
+      return next err if err
+      fs.stat ssh, "#{@scratch}/mode_dir", (err, stat) ->
+        return next err if err
+        stat.mode.toString(8).should.eql '40714'
+        next()
