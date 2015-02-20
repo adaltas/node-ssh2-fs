@@ -211,7 +211,14 @@ the native Node.js API which only accept a permission mode.
                   err.errno = 47
                   err.code = 'EEXIST'
                   err.path = path
-                finish err
+                return finish err if err
+                chown()
+            chown = ->
+              return finish() unless options.uid or options.gid
+              # chown should be required but mkdir doesnt seem to honor uid & gid attributes
+              sftp.chown path, options.uid, options.gid, (err) ->
+                return finish err if err
+                finish()
             finish = (err) ->
               sftp.end()
               callback err
