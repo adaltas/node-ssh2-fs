@@ -102,7 +102,7 @@ the link itself is stat-ed, not the file that it refers to.
             return callback err if err
             sftp.lstat path, (err, attr) ->
               sftp.end()
-              if err and err.type is 'NO_SUCH_FILE'
+              if err and err.code is 2 # ssh2 version 4.x, see https://github.com/mscdex/ssh2-streams/blob/master/lib/sftp.js#L30
                 err.code = 'ENOENT'
                 return callback err
               callback err, attr
