@@ -16,11 +16,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "coffee-script": "latest",
-    "mocha": "latest",
-    "ssh2-exec": "latest",
-    "ssh2-they": "latest",
-    "should": "latest"
+    "coffee-script": "1.9.1",
+    "mocha": "2.2.1",
+    "ssh2-exec": "0.2.9",
+    "ssh2-they": "0.0.6",
+    "should": "5.2.0"
   },
   "optionalDependencies": {},
   "scripts": {
