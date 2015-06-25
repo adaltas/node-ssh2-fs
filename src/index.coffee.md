@@ -330,7 +330,7 @@ Asynchronously reads the entire contents of a file.
               err.code = 'ENOENT'
               err.path = path
               finish err
-            s.on 'close', ->
+            s.on 'end', ->
               finish null, data.join ''
             finish = (err, data) ->
               sftp.end()
