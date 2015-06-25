@@ -1,6 +1,6 @@
 {
   "name": "ssh2-fs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Transparent use of the `fs` module locally or over SSH",
   "keywords": ["child process", "fs", "ssh2", "ssh"],
   "homepage": "https://github.com/wdavidw/node-ssh2-fs",
