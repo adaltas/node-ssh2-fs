@@ -13,3 +13,10 @@ describe 'readFile', ->
       err.code.should.eql 'ENOENT'
       err.path.should.eql "#{__dirname}/doesnotexist"
       next()
+
+  they 'error with directory', test (ssh, next) ->
+    fs.readFile ssh, "#{__dirname}", (err, exists) ->
+      err.message.should.eql 'EISDIR, read'
+      err.code.should.eql 'EISDIR'
+      err.errno.should.eql 28
+      next()

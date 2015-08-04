@@ -325,11 +325,18 @@ Asynchronously reads the entire contents of a file.
             s.on 'data', (d) ->
               data.push d.toString()
             s.on 'error', (err) ->
-              err = new Error "ENOENT, open '#{path}'"
-              err.errno = 34
-              err.code = 'ENOENT'
-              err.path = path
-              finish err
+              module.exports.stat ssh, path, (e, stat) ->
+                if stat and stat.isDirectory()
+                  err = new Error "EISDIR, read"
+                  err.errno = 28
+                  err.code = 'EISDIR'
+                  finish err
+                else
+                  err = new Error "ENOENT, open '#{path}'"
+                  err.errno = 34
+                  err.code = 'ENOENT'
+                  err.path = path
+                  finish err
             s.on 'end', ->
               finish null, data.join ''
             finish = (err, data) ->
