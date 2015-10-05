@@ -18,9 +18,10 @@ callback.
           open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
           return callback Error 'Closed SSH Connection' unless open
           ssh.sftp (err, sftp) ->
-            sftp.rename source, destination, (err) ->
-              sftp.end()
-              callback err
+            sftp.unlink destination, -> # Required after version 0.0.18 (sep 2015)
+              sftp.rename source, destination, (err) ->
+                sftp.end()
+                callback err
 
 # `ssh2-fs.chown(ssh, path, uid, gid, callback)`
 
@@ -314,6 +315,7 @@ Asynchronously reads the entire contents of a file.
           fs.readFile path, options.encoding, (err, content) ->
             callback err, content
         else
+          options.autoClose ?= false # Required after version 0.0.18 (sep 2015)
           # ssh@0.3.x use "_state"
           # ssh@0.4.x use "_sshstream" and "_sock"
           open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
@@ -325,22 +327,20 @@ Asynchronously reads the entire contents of a file.
             s.on 'data', (d) ->
               data.push d.toString()
             s.on 'error', (err) ->
-              module.exports.stat ssh, path, (e, stat) ->
-                if stat and stat.isDirectory()
-                  err = new Error "EISDIR, read"
-                  err.errno = 28
-                  err.code = 'EISDIR'
-                  finish err
-                else
-                  err = new Error "ENOENT, open '#{path}'"
-                  err.errno = 34
-                  err.code = 'ENOENT'
-                  err.path = path
-                  finish err
+              if err.code is 4
+                err = new Error "EISDIR, read"
+                err.errno = -21
+                err.code = 'EISDIR'
+              else if err.code is 2
+                err = new Error "ENOENT, open '#{path}'"
+                err.errno = 34
+                err.code = 'ENOENT'
+                err.path = path
+              finish err
             s.on 'end', ->
               finish null, data.join ''
             finish = (err, data) ->
-              sftp.end()
+              sftp.end() unless options.autoClose
               callback err, data
 
 # `ssh2-fs.writeFile(ssh, path, content, [options], callback)`
@@ -538,15 +538,3 @@ misc.file.createWriteStream sshOrNull, 'test.out', (err, stream) ->
             callback null, ws
 
 [attr]: https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md#attrs
-
-
-
-
-
-
-
-
-
-
-
-
