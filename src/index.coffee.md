@@ -244,7 +244,7 @@ the native Node.js API which only accept a permission mode.
             mkdir = ->
               sftp.mkdir path, options, (err, attr) ->
                 if err?.message is 'Failure'
-                  err = new Error "EEXIST, mkdir '#{path}'"
+                  err = new Error "EEXIST: file already exists, mkdir '#{path}'"
                   err.errno = 47
                   err.code = 'EEXIST'
                   err.path = path
@@ -280,7 +280,7 @@ where files is an array of the names of the files in the directory excluding
             not_a_dir = (err) ->
               sftp.stat path, (er, attr) ->
                 if not er and not attr.isDirectory()
-                  err = Error "ENOTDIR, readdir '#{path}'"
+                  err = Error "ENOTDIR: not a directory, scandir '#{path}'"
                   err.errno = 27
                   err.code = 'ENOTDIR'
                   err.path = path
@@ -328,11 +328,11 @@ Asynchronously reads the entire contents of a file.
               data.push d.toString()
             s.on 'error', (err) ->
               if err.code is 4
-                err = new Error "EISDIR, read"
+                err = new Error "EISDIR: illegal operation on a directory, read"
                 err.errno = -21
                 err.code = 'EISDIR'
               else if err.code is 2
-                err = new Error "ENOENT, open '#{path}'"
+                err = new Error "ENOENT: no such file or directory, open '#{path}'"
                 err.errno = 34
                 err.code = 'ENOENT'
                 err.path = path
@@ -488,12 +488,12 @@ fs.createReadStream sshOrNull, 'test.out', (err, stream) ->
             s.emit = ( (emit) ->
               (key, val) ->
                 if key is 'error' and val?.message is 'Failure'
-                  val = new Error "EISDIR, read"
+                  val = new Error "EISDIR: illegal operation on a directory, read"
                   val.errno = 28
                   val.code = 'EISDIR'
                   return emit.call @, 'error', val
                 if key is 'error' and val.message is 'No such file'
-                  val = new Error "ENOENT, open '#{source}'"
+                  val = new Error "ENOENT: no such file or directory, open '#{source}'"
                   val.errno = 34
                   val.code = 'ENOENT'
                   val.path = source

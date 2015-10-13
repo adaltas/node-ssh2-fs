@@ -15,7 +15,7 @@ describe 'readFile', ->
 
   they 'pass error to callback if not exists', test (ssh, next) ->
     fs.readFile ssh, "#{@scratch}/doesnotexist", 'utf8', (err, exists) =>
-      err.message.should.eql "ENOENT, open '#{@scratch}/doesnotexist'"
+      err.message.should.eql "ENOENT: no such file or directory, open '#{@scratch}/doesnotexist'"
       # err.errno.should.eql 34 # Broken in latest Node.js 0.11.13
       err.code.should.eql 'ENOENT'
       err.path.should.eql "#{@scratch}/doesnotexist"
@@ -23,7 +23,7 @@ describe 'readFile', ->
 
   they 'error with directory', test (ssh, next) ->
     fs.readFile ssh, "#{@scratch}", (err, exists) ->
-      err.message.should.eql 'EISDIR, read'
+      err.message.should.eql 'EISDIR: illegal operation on a directory, read'
       err.code.should.eql 'EISDIR'
       err.errno.should.eql -21
       next()
