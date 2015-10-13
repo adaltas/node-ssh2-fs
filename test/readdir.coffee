@@ -20,7 +20,7 @@ describe 'readdir', ->
         err.message.should.eql "ENOTDIR, readdir '#{__filename}'"
         # err.errno.should.equal 27 # Broken in latest Node.js 0.11.13
       catch
-        err.message.should.eql "ENOTDIR, scandir '#{__filename}'"
+        err.message.should.eql "ENOTDIR: not a directory, scandir '#{__filename}'"
       err.code.should.equal 'ENOTDIR'
       err.path.should.equal __filename
       next()
