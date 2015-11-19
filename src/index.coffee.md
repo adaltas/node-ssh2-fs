@@ -346,7 +346,7 @@ Asynchronously reads the entire contents of a file.
 # `ssh2-fs.writeFile(ssh, path, content, [options], callback)`
 
 *   `filename` String   
-*   `data` String | Buffer   
+*   `data` String | Buffer | stream reader   
 *   `options` Object   
 *   `options.encoding` String | Null default = 'utf8'   
 *   `options.mode` Number default = 438 (aka 0666 in Octal)   
@@ -366,14 +366,18 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
           options = encoding: options if typeof options is 'string'
         unless ssh
           write = ->
+            unless typeof content is 'string' or Buffer.isBuffer content
+              content.on 'error', (err) ->
+                callback err
+                callback = null
             stream = fs.createWriteStream source, options
-            if typeof content is 'string' or buffer.Buffer.isBuffer content
+            if typeof content is 'string' or Buffer.isBuffer content
               stream.write content if content
               stream.end()
             else
               content.pipe stream
             stream.on 'error', (err) ->
-              callback err
+              callback err if callback
             stream.on 'end', ->
               s.destroy()
             stream.on 'close', ->
@@ -381,34 +385,41 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
           chown = ->
             return chmod() unless options.uid or options.gid
             fs.chown source, options.uid, options.gid, (err) ->
-              return callback err if err
+              return callback err if callback err
               chmod()
           chmod = ->
             return finish() unless options.mode
             fs.chmod source, options.mode, (err) ->
               finish err
           finish = (err) ->
-            callback err
+            callback err if callback
           write()
         else
           # ssh@0.3.x use "_state"
           # ssh@0.4.x use "_sshstream" and "_sock"
           open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
           return callback Error 'Closed SSH Connection' unless open
+          unless typeof content is 'string' or Buffer.isBuffer content
+            content.on 'error', (err) ->
+              callback err
+              callback = null
           ssh.sftp (err, sftp) ->
-            return callback err if err
+            if err
+              callback err if callback
+              callback = null
+              return
             write = ->
-              s = sftp.createWriteStream source, options
-              if typeof content is 'string' or buffer.Buffer.isBuffer content
-                s.write content if content
-                s.end()
+              ws = sftp.createWriteStream source, options
+              if typeof content is 'string' or Buffer.isBuffer content
+                ws.write content if content
+                ws.end()
               else
-                content.pipe s
-              s.on 'error', (err) ->
+                content.pipe ws
+              ws.on 'error', (err) ->
                 finish err
-              s.on 'end', ->
-                s.destroy()
-              s.on 'close', ->
+              ws.on 'end', ->
+                ws.destroy()
+              ws.on 'close', ->
                 chown()
             chown = ->
               return chmod() unless options.uid or options.gid
@@ -421,7 +432,8 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
                 finish err
             finish = (err) ->
               sftp.end()
-              callback err
+              callback err if callback
+              callback = null
             write()
 
 # `ssh2-fs.exists(ssh, path, callback)`

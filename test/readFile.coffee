@@ -6,11 +6,11 @@ fs = require '../src'
 
 describe 'readFile', ->
 
-  they 'pass error to callback if not exists', test (ssh, next) ->
+  they 'read', test (ssh, next) ->
     fs.writeFile ssh, "#{@scratch}/a_file", 'hello', flags: 'w', (err, exists) =>
+      return next err if err
       fs.readFile ssh, "#{@scratch}/a_file", 'utf8', (err, content) =>
         content.should.eql 'hello'
-        fs.unlink
         next()
 
   they 'pass error to callback if not exists', test (ssh, next) ->

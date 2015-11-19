@@ -1,13 +1,14 @@
 
+fs = require 'fs'
 should = require 'should'
 test = require './test'
 they = require 'ssh2-they'
-fs = require '../src'
+ssh2fs = require '../src'
 
 describe 'createReadStream', ->
 
   they 'pass error if file does not exists', test (ssh, next) ->
-    fs.createReadStream ssh, "#{@scratch}/not_here", (err, stream) =>
+    ssh2fs.createReadStream ssh, "#{@scratch}/not_here", (err, stream) =>
       stream.on 'error', (err) =>
         err.message.should.eql "ENOENT: no such file or directory, open '#{@scratch}/not_here'"
         # err.errno.should.eql 34 # Broken in latest Node.js 0.11.13
@@ -16,9 +17,24 @@ describe 'createReadStream', ->
         next()
 
   they 'pass error if file is a directory', test (ssh, next) ->
-    fs.createReadStream ssh, __dirname, (err, stream) =>
+    ssh2fs.createReadStream ssh, __dirname, (err, stream) =>
       stream.on 'error', (err) =>
         err.message.should.eql "EISDIR: illegal operation on a directory, read"
         # err.errno.should.eql 28 # Broken in latest Node.js 0.11.13
         err.code.should.eql 'EISDIR'
         next()
+
+  they 'pipe to stream writer', test (ssh, next) ->
+    ws = fs.createWriteStream "#{@scratch}/destination"
+    ssh2fs.writeFile ssh, "#{@scratch}/source", 'a text', (err) =>
+      return next err if err
+      ssh2fs.createReadStream ssh, "#{@scratch}/source", (err, rs) =>
+        rs.pipe ws
+        ws.on 'error', (err) ->
+          next err
+        ws.on 'end', ->
+          ws.destroy()
+        ws.on 'close', =>
+          fs.readFile "#{@scratch}/destination", 'ascii', (err, content) ->
+            content.should.eql 'a text' unless err
+            next err
