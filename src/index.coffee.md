@@ -29,7 +29,7 @@ No arguments other than a possible exception are given to the completion
 callback. 
 
       chown: (ssh, path, uid, gid, callback) ->
-        return callback new Error 'Either option "uid" or "gid" is required' unless uid or gid
+        return callback new Error 'Either option "uid" or "gid" is required' unless uid? or gid?
         unless ssh
           fs.chown path, uid, gid, (err) ->
             callback err
