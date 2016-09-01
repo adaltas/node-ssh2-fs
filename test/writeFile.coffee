@@ -19,16 +19,16 @@ describe 'writeFile', ->
     fs.writeFile "#{@scratch}/source", 'helloworld', (err) =>
       return next err if err
       rs = fs.createReadStream "#{@scratch}/source"
-      ssh2fs.writeFile ssh, "#{@scratch}/destination", rs, (err) =>
+      ssh2fs.writeFile ssh, "#{@scratch}/target", rs, (err) =>
         return next err if err
-        ssh2fs.readFile ssh, "#{@scratch}/destination", 'utf8', (err, content) =>
+        ssh2fs.readFile ssh, "#{@scratch}/target", 'utf8', (err, content) =>
           content.should.eql "helloworld" unless err
           next err
 
   they 'source is invalid readable stream', test (ssh, next) ->
     ssh = null
     rs = fs.createReadStream "#{@scratch}/does_not_exists"
-    ssh2fs.writeFile ssh, "#{@scratch}/destination", rs, (err, ws) =>
+    ssh2fs.writeFile ssh, "#{@scratch}/target", rs, (err, ws) =>
       err.code.should.eql 'ENOENT'
       next()
 

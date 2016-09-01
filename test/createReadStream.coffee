@@ -25,7 +25,7 @@ describe 'createReadStream', ->
         next()
 
   they 'pipe to stream writer', test (ssh, next) ->
-    ws = fs.createWriteStream "#{@scratch}/destination"
+    ws = fs.createWriteStream "#{@scratch}/target"
     ssh2fs.writeFile ssh, "#{@scratch}/source", 'a text', (err) =>
       return next err if err
       ssh2fs.createReadStream ssh, "#{@scratch}/source", (err, rs) =>
@@ -35,6 +35,6 @@ describe 'createReadStream', ->
         ws.on 'end', ->
           ws.destroy()
         ws.on 'close', =>
-          fs.readFile "#{@scratch}/destination", 'ascii', (err, content) ->
+          fs.readFile "#{@scratch}/target", 'ascii', (err, content) ->
             content.should.eql 'a text' unless err
             next err

@@ -8,9 +8,9 @@
 No arguments other than a possible exception are given to the completion
 callback. 
 
-      rename: (ssh, source, destination, callback) ->
+      rename: (ssh, source, target, callback) ->
         unless ssh
-          fs.rename source, destination, (err) ->
+          fs.rename source, target, (err) ->
             callback err
         else
           # ssh@0.3.x use "_state"
@@ -18,8 +18,8 @@ callback.
           open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
           return callback Error 'Closed SSH Connection' unless open
           ssh.sftp (err, sftp) ->
-            sftp.unlink destination, -> # Required after version 0.0.18 (sep 2015)
-              sftp.rename source, destination, (err) ->
+            sftp.unlink target, -> # Required after version 0.0.18 (sep 2015)
+              sftp.rename source, target, (err) ->
                 sftp.end()
                 callback err
 
@@ -148,8 +148,8 @@ callback.
 No arguments other than a possible exception are given to the completion
 callback. The type argument can be set to 'dir', 'file', or 'junction'
 (default is 'file') and is only available on Windows (ignored on other
-platforms). Note that Windows junction points require the destination path to
-be absolute. When using 'junction', the destination argument will automatically
+platforms). Note that Windows junction points require the target path to
+be absolute. When using 'junction', the target argument will automatically
 be normalized to absolute path. 
 
       symlink: (ssh, srcpath, dstpath, callback) ->

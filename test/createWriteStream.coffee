@@ -8,7 +8,7 @@ ssh2fs = require '../src'
 describe 'createWriteStream', ->
 
   they 'pipe into stream reader', test (ssh, next) ->
-    ssh2fs.createWriteStream ssh, "#{@scratch}/destination", (err, ws) =>
+    ssh2fs.createWriteStream ssh, "#{@scratch}/target", (err, ws) =>
       return next err if err
       fs.writeFile "#{@scratch}/source", 'a text', (err) =>
         return next err if err
@@ -19,7 +19,7 @@ describe 'createWriteStream', ->
         ws.on 'end', ->
           ws.destroy()
         ws.on 'close', =>
-          ssh2fs.readFile ssh, "#{@scratch}/destination", 'ascii', (err, content) ->
+          ssh2fs.readFile ssh, "#{@scratch}/target", 'ascii', (err, content) ->
             content.should.eql 'a text' unless err
             next err
 
@@ -35,6 +35,6 @@ describe 'createWriteStream', ->
     #       ws.on 'end', ->
     #         ws.destroy()
     #       ws.on 'close', =>
-    #         ssh2fs.readFile ssh, "#{@scratch}/destination", 'ascii', (err, content) ->
+    #         ssh2fs.readFile ssh, "#{@scratch}/target", 'ascii', (err, content) ->
     #           content.should.eql 'a text' unless err
     #           next err
