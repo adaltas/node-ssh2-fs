@@ -94,10 +94,9 @@ See the fs.Stats section below for more information.
               if err and (err.type is 'NO_SUCH_FILE' or err.code is 2)
                 err.code = 'ENOENT'
                 return callback err
-              # attr.mode = attr.permissions
               callback err, attr
 
-# `ssh2-fs.(ssh, path, callback)`
+# `ssh2-fs.lstat(ssh, path, callback)`
 
 The callback gets two arguments (err, stats) where stats is a fs.Stats object.
 lstat() is identical to stat(), except that if path is a symbolic link, then
