@@ -18,10 +18,10 @@
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "~1.10.0",
-    "mocha": "~2.4.5",
+    "mocha": "~3.0.2",
     "ssh2-exec": "~0.3.1",
     "ssh2-they": "~1.0.0",
-    "should": "~8.3.1"
+    "should": "~11.1.0"
   },
   "optionalDependencies": {},
   "scripts": {
