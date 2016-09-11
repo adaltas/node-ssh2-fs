@@ -3,13 +3,12 @@ fs = require 'fs'
 should = require 'should'
 exec = require 'ssh2-exec'
 
-scratch = "/tmp/test-nodejs-ssh2-fs"
-i = 0
+scratch = "/tmp/ssh2-fs-test"
 
 module.exports = (callback) ->
-    (ssh, next) ->
-      @scratch = "#{scratch}-#{i++}"
-      exec ssh, "mkdir -p #{@scratch}", (err) =>
-        callback.call @, ssh, (err) =>
-          exec ssh, "rm -rf #{@scratch}", (cleanerr) =>
-            next err or cleanerr
+  (ssh, next) ->
+    @scratch = "#{scratch}"
+    exec ssh, "rm -rf #{@scratch}", (err) =>
+      return next err if err
+      exec ssh, "mkdir -p #{@scratch}", (cleanerr) =>
+        callback.call @, ssh, next
