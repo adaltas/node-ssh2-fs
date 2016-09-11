@@ -156,6 +156,32 @@ Then call the callback argument with an error and either true or false.
               sftp.end()
               callback null, if err then false else true
 
+# `ssh2-fs.futimes(ssh, path, atime, mtime, callback)`
+
+Sets the access time and modified time for the resource associated with handle. 
+
+      futimes: (ssh, path, atime, mtime, callback) ->
+        unless ssh
+          fs.open path, 'r', (err, fd) ->
+            return callback err if err
+            fs.futimes fd, atime, mtime, (err) ->
+              return callback err if err
+              fs.close fd, callback
+        else
+          open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+          return callback Error 'Closed SSH Connection' unless open
+          ssh.sftp (err, sftp) ->
+            end = (err) ->
+              sftp.end()
+              callback err
+            return end err if err
+            sftp.open path, 'r', (err, fd) ->
+              return end err if err
+              sftp.futimes fd, atime, mtime, (err) ->
+                return end err if err
+                sftp.close fd, (err) ->
+                  end err
+
 # `ssh2-fs.lstat(ssh, path, callback)`
 
 The callback gets two arguments (err, stats) where stats is a fs.Stats object.
