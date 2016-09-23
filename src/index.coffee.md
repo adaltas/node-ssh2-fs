@@ -326,9 +326,10 @@ Asynchronously reads the entire contents of a file.
           ssh.sftp (err, sftp) ->
             return callback err if err
             s = sftp.createReadStream path, options
-            data = []
-            s.on 'data', (d) ->
-              data.push d.toString()
+            buffers = []
+            s.on 'data', (buffer) ->
+              buffer = Buffer.from buffer, options.encoding if options.encoding
+              buffers.push buffer
             s.on 'error', (err) ->
               if err.code is 4
                 err = new Error "EISDIR: illegal operation on a directory, read"
@@ -341,9 +342,10 @@ Asynchronously reads the entire contents of a file.
                 err.path = path
               finish err
             s.on 'end', ->
-              finish null, data.join ''
+              finish null, Buffer.concat buffers
             finish = (err, data) ->
               sftp.end() unless options.autoClose
+              data = data.toString() if not err and options.encoding
               callback err, data
 
 # `ssh2-fs.readlink(ssh, path, callback)`

@@ -6,7 +6,14 @@ fs = require '../src'
 
 describe 'readFile', ->
 
-  they 'read', test (ssh, next) ->
+  they 'return a buffer unless encoding is present', test (ssh, next) ->
+    fs.writeFile ssh, "#{@scratch}/a_file", 'hello', flags: 'w', (err, exists) =>
+      return next err if err
+      fs.readFile ssh, "#{@scratch}/a_file", (err, content) =>
+        Buffer.isBuffer(content).should.be.true()
+        next()
+
+  they 'return a string if encoding is present', test (ssh, next) ->
     fs.writeFile ssh, "#{@scratch}/a_file", 'hello', flags: 'w', (err, exists) =>
       return next err if err
       fs.readFile ssh, "#{@scratch}/a_file", 'utf8', (err, content) =>
