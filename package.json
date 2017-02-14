@@ -15,7 +15,7 @@
   "engines": {
     "node": ">=0.10.1"
   },
-  "homepage": "https://github.com/wdavidw/node-ssh2-fs",
+  "homepage": "https://github.com/adaltas/node-ssh2-fs",
   "keywords": [
     "child process",
     "fs",
@@ -27,7 +27,7 @@
   "optionalDependencies": {},
   "repository": {
     "type": "git",
-    "url": "git://github.com/wdavidw/node-ssh2-fs.git"
+    "url": "https://github.com/adaltas/node-ssh2-fs.git"
   },
   "scripts": {
     "coffee": "./node_modules/.bin/coffee -b -o lib src",
