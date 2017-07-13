@@ -25,7 +25,6 @@ the SSH2 API:
 *   The functions `createReadStream` and `createWriteStream` pass the streams 
     it to their completion callback instead of returning it.
 
-
 Only the asynchronous functions are ported, we have no plan to support 
 sunchronous functions. Morevover, they are not supported by [`ssh2`].
 

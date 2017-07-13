@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* src: support root uid and gid
 * src: fix wrong callback usage
 * src: catch close and readdir errors
 

@@ -503,7 +503,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
             stream.on 'close', ->
               chown()
           chown = ->
-            return chmod() unless options.uid or options.gid
+            return chmod() unless options.uid? or options.gid?
             fs.chown source, options.uid, options.gid, (err) ->
               return callback err if err
               chmod()
@@ -542,7 +542,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
               ws.on 'close', ->
                 chown()
             chown = ->
-              return chmod() unless options.uid or options.gid
+              return chmod() unless options.uid? or options.gid?
               sftp.chown source, options.uid, options.gid, (err) ->
                 return finish err if err
                 chmod()
