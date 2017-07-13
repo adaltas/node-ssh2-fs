@@ -1,7 +1,7 @@
 {
   "name": "ssh2-fs",
   "description": "Transparent use of the `fs` module locally or over SSH",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": "David Worms <david@adaltas.com>",
   "contributors": [],
   "dependencies": {},
