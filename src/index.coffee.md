@@ -505,7 +505,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
           chown = ->
             return chmod() unless options.uid or options.gid
             fs.chown source, options.uid, options.gid, (err) ->
-              return callback err if callback err
+              return callback err if err
               chmod()
           chmod = ->
             return finish() unless options.mode

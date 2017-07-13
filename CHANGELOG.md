@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* src: fix wrong callback usage
 * src: catch close and readdir errors
 
 ## Version 0.2.3
