@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* src: catch close and readdir errors
+
 ## Version 0.2.3
 
 * package: latest dependencies
