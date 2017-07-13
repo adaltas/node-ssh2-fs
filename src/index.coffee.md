@@ -3,6 +3,12 @@
 
     module.exports =
 
+# `ssh2-fs.constants`
+
+Export native Node.js access, open, type and mode file constants for comfort.
+
+      constants: fs.constants
+
 # `ssh2-fs.chmod(ssh, path, options, callback)`
 
 No arguments other than a possible exception are given to the completion
