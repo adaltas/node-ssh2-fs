@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readdir: traverse empty directory
+
 ## Version 0.2.4
 
 * api: export fs.constants
