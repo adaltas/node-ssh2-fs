@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* test: fix constant test
 * package: npm release commands
 * readdir: traverse empty directory
 

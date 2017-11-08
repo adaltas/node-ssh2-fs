@@ -6,6 +6,5 @@ fs = require '../lib'
 describe 'constants', ->
 
   it 'match with native constants', ->
-    # (typeof fs.constants is 'object').should.be.true()
-    fs.constants.should.be.an.Object()
-    fs.constants.S_IFREG is require('fs').constants.S_IFREG
+    fs.constants.S_IFDIR.should.be.a.Number()
+    fs.constants.S_IFDIR is require('fs').constants.S_IFDIR
