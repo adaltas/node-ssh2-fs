@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: update to CoffeeScript 2
+
 ## Version 0.2.5
 
 * test: fix constant test
