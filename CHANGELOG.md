@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 0.2.5
 
 * test: fix constant test
 * package: npm release commands
