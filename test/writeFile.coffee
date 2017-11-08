@@ -1,6 +1,5 @@
 
 fs = require 'fs'
-should = require 'should'
 test = require './test'
 they = require 'ssh2-they'
 ssh2fs = require '../src'

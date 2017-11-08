@@ -1,6 +1,5 @@
 
 path = require 'path'
-should = require 'should'
 test = require './test'
 they = require 'ssh2-they'
 fs = require '../src'

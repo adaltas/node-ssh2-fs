@@ -1,5 +1,4 @@
 
-should = require 'should'
 test = require './test'
 they = require 'ssh2-they'
 fs = require '../src'
@@ -13,5 +12,3 @@ describe 'ssh', ->
       fs.readFile ssh, "#{@scratch}/a_file", 'utf8', (err, content) ->
         err.message.should.eql 'Closed SSH Connection'
         next()
-
-

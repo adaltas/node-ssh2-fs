@@ -1,6 +1,5 @@
 
 fs = require 'fs'
-should = require 'should'
 exec = require 'ssh2-exec'
 
 scratch = "/tmp/ssh2-fs-test"
