@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: npm release commands
 * readdir: traverse empty directory
 
 ## Version 0.2.4
