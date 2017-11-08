@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 0.3.0
 
 * package: update to CoffeeScript 2
 
