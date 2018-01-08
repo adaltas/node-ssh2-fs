@@ -32,4 +32,5 @@ describe 'readFile', ->
       err.message.should.eql 'EISDIR: illegal operation on a directory, read'
       err.code.should.eql 'EISDIR'
       err.errno.should.eql -21
+      err.syscall.should.eql 'read'
       next()

@@ -341,6 +341,7 @@ Asynchronously reads the entire contents of a file.
                 err = new Error "EISDIR: illegal operation on a directory, read"
                 err.errno = -21
                 err.code = 'EISDIR'
+                err.syscall = 'read'
               else if err.code is 2
                 err = new Error "ENOENT: no such file or directory, open '#{path}'"
                 err.errno = 34

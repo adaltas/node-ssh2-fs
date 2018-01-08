@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* readFile: add syscall error property when target is a directory
+
 ## Version 0.3.0
 
 * package: update to CoffeeScript 2
