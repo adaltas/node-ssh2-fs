@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 0.3.1
 
 * package: run tests first before releasing
 * readFile: add syscall error property when target is a directory
