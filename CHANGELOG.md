@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* rmdir: new function
+
 ## Version 0.3.1
 
 * package: run tests first before releasing

@@ -377,12 +377,11 @@ The callback gets two arguments (err, linkString).
 # `ssh2-fs.rename(sshOrNull, oldPath, newPath, callback)`
 
 No arguments other than a possible exception are given to the completion
-callback. 
+callback.
 
       rename: (ssh, source, target, callback) ->
         unless ssh
-          fs.rename source, target, (err) ->
-            callback err
+          fs.rename source, target, callback
         else
           # ssh@0.3.x use "_state"
           # ssh@0.4.x use "_sshstream" and "_sock"
@@ -393,6 +392,30 @@ callback.
               sftp.rename source, target, (err) ->
                 sftp.end()
                 callback err
+
+# `ssh2-fs.rmdir(sshOrNull, path, callback)`
+
+No arguments other than a possible exception are given to the completion
+callback.
+
+      rmdir: (ssh, target, callback) ->
+        unless ssh
+          fs.rmdir target, callback
+        else
+          # ssh@0.3.x use "_state"
+          # ssh@0.4.x use "_sshstream" and "_sock"
+          open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+          return callback Error 'Closed SSH Connection' unless open
+          ssh.sftp (err, sftp) ->
+            sftp.rmdir target, (err) ->
+              sftp.end()
+              if err and (err.type is 'NO_SUCH_FILE' or err.code is 2)
+                err.message = "ENOENT: no such file or directory, rmdir '#{target}'"
+                err.errno = -2
+                err.code = 'ENOENT'
+                err.syscall = 'rmdir'
+                err.path = target
+              callback err
 
 # `ssh2-fs.stat(ssh, path, callback)`
 
