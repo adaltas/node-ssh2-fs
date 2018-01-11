@@ -1,6 +1,11 @@
 
 # Changelog
 
+## Trunk
+
+* package: latest dependencies
+* travis: test against Node.js 9
+
 ## Version 0.3.2
 
 * rmdir: new function
