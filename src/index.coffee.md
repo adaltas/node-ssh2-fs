@@ -344,8 +344,9 @@ Asynchronously reads the entire contents of a file.
                 err.syscall = 'read'
               else if err.code is 2
                 err = new Error "ENOENT: no such file or directory, open '#{path}'"
-                err.errno = 34
                 err.code = 'ENOENT'
+                err.errno = -2
+                err.syscall = 'open'
                 err.path = path
               finish err
             s.on 'end', ->

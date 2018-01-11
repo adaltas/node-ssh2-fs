@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* readFile: align with native fs error when file does not exists
 * package: latest dependencies
 * travis: test against Node.js 9
 
