@@ -81,16 +81,18 @@ fs.createReadStream sshOrNull, 'test.out', (err, stream) ->
             s = sftp.createReadStream source, options
             s.emit = ( (emit) ->
               (key, val) ->
-                if key is 'error' and val?.message is 'Failure'
-                  val = new Error "EISDIR: illegal operation on a directory, read"
-                  val.errno = 28
-                  val.code = 'EISDIR'
-                  return emit.call @, 'error', val
-                if key is 'error' and val.message is 'No such file'
-                  val = new Error "ENOENT: no such file or directory, open '#{source}'"
-                  val.errno = 34
-                  val.code = 'ENOENT'
-                  val.path = source
+                if key is 'error'
+                  if val.code is 4
+                    val = new Error "EISDIR: illegal operation on a directory, read"
+                    val.errno = -21
+                    val.code = 'EISDIR'
+                    val.syscall = 'read'
+                  else if val.code is 2
+                    val = new Error "ENOENT: no such file or directory, open '#{source}'"
+                    val.code = 'ENOENT'
+                    val.errno = -2
+                    val.syscall = 'open'
+                    val.path = source
                   return emit.call @, 'error', val
                 emit.apply @, arguments
             )(s.emit)

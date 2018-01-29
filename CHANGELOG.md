@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* createReadStream: align with native fs error
+
 ## Version 0.3.3
 
 * readFile: align with native fs error when file does not exists

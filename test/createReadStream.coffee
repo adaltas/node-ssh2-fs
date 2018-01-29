@@ -10,8 +10,9 @@ describe 'createReadStream', ->
     ssh2fs.createReadStream ssh, "#{@scratch}/not_here", (err, stream) =>
       stream.on 'error', (err) =>
         err.message.should.eql "ENOENT: no such file or directory, open '#{@scratch}/not_here'"
-        # err.errno.should.eql 34 # Broken in latest Node.js 0.11.13
         err.code.should.eql 'ENOENT'
+        err.errno.should.eql -2
+        err.syscall.should.eql 'open'
         err.path.should.eql "#{@scratch}/not_here"
         next()
 
