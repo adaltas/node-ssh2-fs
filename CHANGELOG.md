@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 0.3.4
 
 * createReadStream: align with native fs error
 
