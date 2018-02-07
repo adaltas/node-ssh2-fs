@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+package: start running tests in preversion
+
 ## Version 0.3.4
 
 * createReadStream: align with native fs error
