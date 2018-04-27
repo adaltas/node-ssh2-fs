@@ -1,9 +1,13 @@
 
 # Changelog
 
+## Trunk
+
+* package: ignore lock files
+
 ## Version 0.3.5
 
-package: start running tests in preversion
+* package: start running tests in preversion
 
 ## Version 0.3.4
 
