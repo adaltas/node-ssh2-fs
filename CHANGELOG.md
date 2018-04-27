@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 0.3.6
 
 * package: latest dependencies
 * package: ignore lock files
