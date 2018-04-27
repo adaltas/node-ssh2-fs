@@ -3,6 +3,7 @@
 
 ## Trunk
 
+* package: latest dependencies
 * package: ignore lock files
 
 ## Version 0.3.5

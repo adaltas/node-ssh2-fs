@@ -129,8 +129,7 @@ misc.file.createWriteStream sshOrNull, 'test.out', (err, stream) ->
           ssh.sftp (err, sftp) ->
             return callback err if err
             ws = sftp.createWriteStream(path, options)
-            ws.on 'close', ->
-              sftp.end()
+            ws.on 'close', -> sftp.end()
             callback null, ws
 
 # `ssh2-fs.exists(ssh, path, callback)`
