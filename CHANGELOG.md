@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* project: latest dependencies
+
 ## Version 0.3.6
 
 * package: latest dependencies

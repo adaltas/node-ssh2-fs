@@ -7,7 +7,7 @@ ssh2fs = require '../src'
 describe 'writeFile', ->
 
   they 'source is buffer', test (ssh, next) ->
-    buf = new Buffer 'helloworld'
+    buf = Buffer.from 'helloworld'
     ssh2fs.writeFile ssh, "#{@scratch}/a_file", buf, (err) =>
       return next err if err
       ssh2fs.readFile ssh, "#{@scratch}/a_file", 'utf8', (err, content) =>
