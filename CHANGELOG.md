@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+* package: update adaltas url
+
 ## Version 0.3.7
 
 * project: latest dependencies
