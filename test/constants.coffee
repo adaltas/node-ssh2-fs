@@ -1,6 +1,4 @@
 
-test = require './test'
-they = require 'ssh2-they'
 fs = require '../lib'
 
 describe 'constants', ->

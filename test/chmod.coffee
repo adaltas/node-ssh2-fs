@@ -1,14 +1,13 @@
 
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../lib'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'chmod', ->
 
-  they 'change permission', test (ssh, next) ->
-    fs.writeFile ssh, "#{@scratch}/a_file", "hello", (err) =>
-      fs.chmod ssh, "#{@scratch}/a_file", '546', (err) =>
-        return next err if err
-        fs.stat ssh, "#{@scratch}/a_file", (err, stat) =>
-          "0o0#{(stat.mode & 0o0777).toString 8}".should.eql '0o0546'
-          next err
+  they 'change permission', ({ssh}) ->
+    await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
+    await ssh2fs.chmod ssh, "#{scratch}/a_file", '546'
+    stat = await ssh2fs.stat ssh, "#{scratch}/a_file"
+    "0o0#{(stat.mode & 0o0777).toString 8}".should.eql '0o0546'

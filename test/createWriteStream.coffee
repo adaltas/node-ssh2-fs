@@ -1,39 +1,23 @@
 
 fs = require 'fs'
-test = require './test'
-they = require 'ssh2-they'
 ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'createWriteStream', ->
 
-  they 'pipe into stream reader', test (ssh, next) ->
-    ssh2fs.createWriteStream ssh, "#{@scratch}/target", (err, ws) =>
-      return next err if err
-      fs.writeFile "#{@scratch}/source", 'a text', (err) =>
-        return next err if err
-        rs = fs.createReadStream "#{@scratch}/source"
-        rs.pipe ws
-        ws.on 'error', (err) ->
-          next err
-        ws.on 'end', ->
-          ws.destroy()
-        ws.on 'close', =>
-          ssh2fs.readFile ssh, "#{@scratch}/target", 'ascii', (err, content) ->
-            content.should.eql 'a text' unless err
-            next err
-
-    # they 'handle file does not exist', test (ssh, next) ->
-    #   ssh2fs.createWriteStream ssh, "#{@scratch}/missing", (err, ws) =>
-    #     return next err if err
-    #     fs.writeFile "#{@scratch}/source", 'a text', (err) =>
-    #       return next err if err
-    #       rs = fs.createReadStream "#{@scratch}/source"
-    #       rs.pipe ws
-    #       ws.on 'error', (err) ->
-    #         next err
-    #       ws.on 'end', ->
-    #         ws.destroy()
-    #       ws.on 'close', =>
-    #         ssh2fs.readFile ssh, "#{@scratch}/target", 'ascii', (err, content) ->
-    #           content.should.eql 'a text' unless err
-    #           next err
+  they 'pipe into stream reader', ({ssh}) ->
+    await fs.promises.writeFile "#{scratch}/source", 'a text'
+    rs = fs.createReadStream "#{scratch}/source"
+    ws = await ssh2fs.createWriteStream ssh, "#{scratch}/target"
+    rs.pipe ws
+    new Promise (resolve, reject) ->
+      ws.on 'error', (err) ->
+        reject err
+      ws.on 'end', ->
+        ws.destroy()
+      ws.on 'close', ->
+        content = await ssh2fs.readFile ssh, "#{scratch}/target", 'ascii'
+        content.should.eql 'a text'
+        resolve()

@@ -1,16 +1,15 @@
 
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../src'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'exists', ->
 
-  they 'on file', test (ssh, next) ->
-    fs.exists ssh, "#{__filename}", (err, exists) ->
-      exists.should.be.true()
-      next()
+  they 'on file', ({ssh}) ->
+    exists = await ssh2fs.exists ssh, "#{__filename}"
+    exists.should.be.true()
 
-  they 'does not exist', test (ssh, next) ->
-    fs.exists ssh, "#{__filename}/nothere", (err, exists) ->
-      exists.should.not.be.true()
-      next()
+  they 'does not exist', ({ssh}) ->
+    exists = await ssh2fs.exists ssh, "#{__filename}/nothere"
+    exists.should.not.be.true()

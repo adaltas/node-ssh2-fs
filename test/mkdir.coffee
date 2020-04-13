@@ -1,27 +1,24 @@
 
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../src'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'mkdir', ->
 
-  they 'create a new directory', test (ssh, next) ->
-    fs.mkdir ssh, "#{@scratch}/new_dir", (err) =>
-      next err
+  they 'create a new directory', ({ssh}) ->
+    await ssh2fs.mkdir ssh, "#{scratch}/new_dir"
 
-  they 'pass error if dir exists', test (ssh, next) ->
-    fs.mkdir ssh, "#{@scratch}/new_dir", (err) =>
-      fs.mkdir ssh, "#{@scratch}/new_dir", (err) =>
-        err.message.should.eql "EEXIST: file already exists, mkdir '#{@scratch}/new_dir'"
-        err.path.should.eql "#{@scratch}/new_dir"
-        # err.errno.should.eql 47 # Broken in latest Node.js 0.11.13
-        err.code.should.eql 'EEXIST'
-        next()
+  they 'pass error if dir exists', ({ssh}) ->
+    await ssh2fs.mkdir ssh, "#{scratch}/new_dir"
+    ssh2fs.mkdir ssh, "#{scratch}/new_dir"
+    .should.be.rejectedWith
+      message: "EEXIST: file already exists, mkdir '#{scratch}/new_dir'"
+      path: "#{scratch}/new_dir"
+      # errno: 47
+      code: 'EEXIST'
 
-  they 'set mode', test (ssh, next) ->
-    fs.mkdir ssh, "#{@scratch}/mode_dir", 0o0714, (err) =>
-      return next err if err
-      fs.stat ssh, "#{@scratch}/mode_dir", (err, stat) ->
-        return next err if err
-        stat.mode.toString(8).should.eql '40714'
-        next()
+  they 'set mode', ({ssh}) ->
+    await ssh2fs.mkdir ssh, "#{scratch}/mode_dir", 0o0714
+    stat = await ssh2fs.stat ssh, "#{scratch}/mode_dir"
+    stat.mode.toString(8).should.eql '40714'

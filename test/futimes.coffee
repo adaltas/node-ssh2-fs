@@ -1,16 +1,15 @@
 
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../lib'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'futimes', ->
 
-  they 'change permission', test (ssh, next) ->
-    fs.writeFile ssh, "#{@scratch}/a_file", "hello", (err) =>
-      fs.stat ssh, "#{@scratch}/a_file", (err, stat1) =>
-        fs.futimes ssh, "#{@scratch}/a_file", Date.now(), Date.now(), (err) =>
-          return next err if err
-          fs.stat ssh, "#{@scratch}/a_file", (err, stat2) =>
-            stat1.atime.should.not.equal stat2.atime
-            stat1.mtime.should.not.equal stat2.mtime
-            next err
+  they 'change permission', ({ssh}) ->
+    await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
+    stat1 = await ssh2fs.stat ssh, "#{scratch}/a_file"
+    await ssh2fs.futimes ssh, "#{scratch}/a_file", Date.now(), Date.now()
+    stat2 = await ssh2fs.stat ssh, "#{scratch}/a_file"
+    stat1.atime.should.not.equal stat2.atime
+    stat1.mtime.should.not.equal stat2.mtime

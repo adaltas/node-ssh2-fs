@@ -1,33 +1,25 @@
 
 path = require 'path'
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../src'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'readdir', ->
   
-  they 'list', test (ssh, next) ->
-    fs.readdir ssh, "#{__dirname}", (err, files) ->
-      return next err if err
-      files.length.should.be.above 5
-      files.indexOf(path.basename __filename).should.not.equal -1
-      next()
+  they 'list', ({ssh}) ->
+    files = await ssh2fs.readdir ssh, "#{__dirname}"
+    files.length.should.be.above 5
+    files.indexOf(path.basename __filename).should.not.equal -1
         
-  they 'list empty dir', test (ssh, next) ->
-    fs.mkdir ssh, "#{@scratch}/empty", (err) =>
-      return next err if err
-      fs.readdir ssh, "#{@scratch}/empty", (err, files) =>
-        return next err if err
-        files.length.should.equal 0
-        next()
+  they 'list empty dir', ({ssh}) ->
+    files = await ssh2fs.mkdir ssh, "#{scratch}/empty"
+    files = await ssh2fs.readdir ssh, "#{scratch}/empty"
+    files.length.should.equal 0
   
-  they 'error on file', test (ssh, next) ->
-    fs.readdir ssh, "#{__filename}", (err, files) ->
-      try
-        err.message.should.eql "ENOTDIR, readdir '#{__filename}'"
-        # err.errno.should.equal 27 # Broken in latest Node.js 0.11.13
-      catch
-        err.message.should.eql "ENOTDIR: not a directory, scandir '#{__filename}'"
-      err.code.should.equal 'ENOTDIR'
-      err.path.should.equal __filename
-      next()
+  they 'error on file', ({ssh}) ->
+    files = await ssh2fs.readdir ssh, "#{__filename}"
+    .should.be.rejectedWith
+      code: 'ENOTDIR'
+      message: "ENOTDIR: not a directory, scandir '#{__filename}'"
+      path: __filename

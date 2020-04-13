@@ -1,22 +1,20 @@
 
-test = require './test'
-they = require 'ssh2-they'
-fs = require '../src'
+ssh2fs = require '../src'
+{tmpdir, scratch, they} = require './test'
+
+beforeEach tmpdir
 
 describe 'rmdir', ->
 
-  they 'a dir', test (ssh, next) ->
-    fs.mkdir ssh, "#{@scratch}/a_dir", (err) =>
-      return next err if err
-      fs.rmdir ssh, "#{@scratch}/a_dir", (err) =>
-        return next err if err
-        next()
+  they 'a dir', ({ssh}) ->
+    await ssh2fs.mkdir ssh, "#{scratch}/a_dir"
+    await ssh2fs.rmdir ssh, "#{scratch}/a_dir"
 
-  they 'a missing file', test (ssh, next) ->
-    fs.rmdir ssh, "#{@scratch}/a_dir", (err) =>
-      err.message.should.eql 'ENOENT: no such file or directory, rmdir \'/tmp/ssh2-fs-test/a_dir\''
-      err.errno.should.eql -2
-      err.code.should.eql 'ENOENT'
-      err.syscall.should.eql 'rmdir'
-      err.path.should.eql '/tmp/ssh2-fs-test/a_dir'
-      next()
+  they 'a missing file', ({ssh}) ->
+    ssh2fs.rmdir ssh, "#{scratch}/a_dir"
+    .should.be.rejectedWith
+      message: 'ENOENT: no such file or directory, rmdir \'/tmp/ssh2-fs-test/a_dir\''
+      errno: -2
+      code: 'ENOENT'
+      syscall: 'rmdir'
+      path: '/tmp/ssh2-fs-test/a_dir'
