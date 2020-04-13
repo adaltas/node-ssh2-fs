@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.0
 
 - api: convert to promise based api
 - package: latest dependencies
