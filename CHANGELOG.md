@@ -3,6 +3,7 @@
 
 ## Trunk
 
+- test: latest mocha, move config to package.json
 - package: coffee lint
 
 ## Version 0.3.8
