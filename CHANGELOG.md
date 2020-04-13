@@ -3,6 +3,7 @@
 
 ## Trunk
 
+- package: latest dependencies
 - test: latest mocha, move config to package.json
 - package: coffee lint
 
