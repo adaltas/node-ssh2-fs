@@ -156,6 +156,8 @@ Test whether or not the given path exists by checking with the file system.
               return reject err if err
               sftp.stat path, (err, attr) ->
                 sftp.end()
+                # ssh2@0.4.x use err.code; ssh2@0.3.x use err.type
+                return reject err if err and (err.code isnt 2 and err.type isnt 'NO_SUCH_FILE')
                 resolve if err then false else true
 
 # `ssh2-fs.futimes(ssh, path, atime, mtime)`
@@ -201,8 +203,7 @@ that it refers to.
               sftp.lstat path, (err, attr) ->
                 sftp.end()
                 # see https://github.com/mscdex/ssh2-streams/blob/master/lib/sftp.js#L30
-                # ssh2@0.3.x use err.type
-                # ssh2@0.4.x use err.code
+                # ssh2@0.4.x use err.code; ssh2@0.3.x use err.type
                 if err and (err.type is 'NO_SUCH_FILE' or err.code is 2)
                   err.code = 'ENOENT'
                   return reject err
@@ -428,8 +429,7 @@ information.
               sftp.stat path, (err, attr) ->
                 sftp.end()
                 # see https://github.com/mscdex/ssh2-streams/blob/master/lib/sftp.js#L30
-                # ssh2@0.3.x use err.type
-                # ssh2@0.4.x use err.code
+                # ssh2@0.4.x use err.code; ssh2@0.3.x use err.type
                 if err and (err.type is 'NO_SUCH_FILE' or err.code is 2)
                   err.code = 'ENOENT'
                   return reject err
