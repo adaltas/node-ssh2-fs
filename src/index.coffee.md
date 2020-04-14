@@ -31,7 +31,7 @@ Asynchronously changes the permissions of a file. No arguments is returned by th
 
 Asynchronously changes owner and group of a file. No arguments is returned by the function. 
 
-      chown: (ssh, path, uid, gid, callback) ->
+      chown: (ssh, path, uid, gid) ->
         throw Error 'Either option "uid" or "gid" is required' unless uid? or gid?
         unless ssh
           fs.promises.chown path, uid, gid
@@ -48,13 +48,16 @@ Asynchronously changes owner and group of a file. No arguments is returned by th
 
 # `ssh2-fs.createReadStream(ssh, path, [options])`
 
-Pass a new ReadStream object (See Readable Stream) to the completion callback.
+Return a promise with a new [ReadStream
+object](https://nodejs.org/api/stream.html#stream_class_stream_readable) on
+completion.
 
-This differs from the original `fs` API which return the Readable Stream instead
-of passing it to the completion callback, this is internally due to the ssh2
-API.
+In the original `fs` API, `createReadStream` is directly return instead of being
+available on a promise completion. The reason is due to the nature of
+the SSH library where we need to create an SFTP instance asynchronously before
+returning the the writable stream.
 
-Example:   
+Example:
 
 ```coffee
 stream = await fs.createReadStream sshOrNull, 'test.out'
@@ -92,15 +95,18 @@ stream.pipe fs.createWriteStream 'test.in'
               s.on 'close', -> sftp.end()
               resolve s
 
-# `createWriteStream(ssh, path, [options], callback)`
+# `createWriteStream(ssh, path, [options])`
 
-Pass a new WriteStream object (See Writable Stream) to the completion callback.
+Return a promise with a new [WriteStream
+object](https://nodejs.org/api/stream.html#stream_class_stream_writable) on
+completion.
 
-In the original `fs` API, `createWriteStream` is not available as a promise
-while it is here. The reason is due to the internal nature where we need to
-create an SFTP instance asynchronously before returning the the writable stream.
+In the original `fs` API, `createWriteStream` is directly return instead of
+being available on a promise completion. The reason is due to the internal
+nature where we need to create an SFTP instance asynchronously before returning
+the the writable stream.
 
-Example:   
+Example:
 
 ```coffee
 stream = await fs.createWriteStream sshOrNull, 'test.out'
@@ -143,11 +149,11 @@ Test whether or not the given path exists by checking with the file system.
             false
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"; scsh@0.3.x use "_state"
             open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
-              return callback err if err
+              return reject err if err
               sftp.stat path, (err, attr) ->
                 sftp.end()
                 resolve if err then false else true
@@ -403,7 +409,7 @@ No promise arguments is given.
 The promise return an fs.Stats object. See the fs.Stats section below for more
 information.
 
-      stat: (ssh, path, callback) ->
+      stat: (ssh, path) ->
         # Not yet test, no way to know if file is a direct or a link
         unless ssh
           # { dev: 16777218, mode: 16877, nlink: 19, uid: 501, gid: 20,

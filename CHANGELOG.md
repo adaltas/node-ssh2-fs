@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- src: remove occurance of callback
+
 ## Version 1.0.1
 
 - package: remove old lock file
