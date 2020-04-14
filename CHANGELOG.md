@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- package: remove old lock file
+
 ## Version 1.0.0
 
 - api: convert to promise based api
