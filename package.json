@@ -1,7 +1,7 @@
 {
   "name": "ssh2-fs",
   "description": "Transparent use of the `fs` module locally or over SSH",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "David Worms <david@adaltas.com> (https://www.adaltas.com)",
   "coffeelintConfig": {
     "indentation": {
