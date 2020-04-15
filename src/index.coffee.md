@@ -74,8 +74,8 @@ stream.pipe fs.createWriteStream 'test.in'
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
-              s = sftp.createReadStream source, options
-              s.emit = ( (emit) ->
+              rs = sftp.createReadStream source, options
+              rs.emit = ( (emit) ->
                 (key, val) ->
                   if key is 'error'
                     if val.code is 4
@@ -91,9 +91,9 @@ stream.pipe fs.createWriteStream 'test.in'
                       val.path = source
                     return emit.call @, 'error', val
                   emit.apply @, arguments
-              )(s.emit)
-              s.on 'close', -> sftp.end()
-              resolve s
+              )(rs.emit)
+              rs.on 'close', -> sftp.end()
+              resolve rs
 
 # `createWriteStream(ssh, path, [options])`
 
@@ -124,6 +124,23 @@ fs.createReadStream('test.in').pipe stream
             ssh.sftp (err, sftp) ->
               return reject err if err
               ws = sftp.createWriteStream(path, options)
+              ws.emit = ( (emit) ->
+                (key, val) ->
+                  if key is 'error'
+                    if val.code is 4
+                      val = new Error "EISDIR: illegal operation on a directory, read"
+                      val.errno = -21
+                      val.code = 'EISDIR'
+                      val.syscall = 'read'
+                    else if val.code is 2
+                      val = new Error "ENOENT: no such file or directory, open '#{path}'"
+                      val.code = 'ENOENT'
+                      val.errno = -2
+                      val.syscall = 'open'
+                      val.path = path
+                    return emit.call @, 'error', val
+                  emit.apply @, arguments
+              )(ws.emit)
               ws.on 'close', -> sftp.end()
               resolve ws
 

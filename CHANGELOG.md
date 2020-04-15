@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- createWriteStream: support ENOENT and EISDIR error with SSH
+
 ## Version 1.0.2
 
 - ssh2@0.4.x use err.code; ssh2@0.3.x use err.type
