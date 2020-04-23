@@ -44,3 +44,12 @@ describe 'createWriteStream', ->
         content = await ssh2fs.readFile ssh, "#{scratch}/target", 'ascii'
         content.should.eql 'a text'
         resolve()
+
+  they.only 'pass append flag', ({ssh}) ->
+    await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
+    ws = await ssh2fs.createWriteStream ssh, "#{scratch}/a_file", flags: 'a'
+    ws.write 'world'
+    ws.end()
+    ws.on 'close', ->
+      ssh2fs.readFile ssh, "#{scratch}/a_file", 'utf8'
+      .should.resolvedWith "helloworld"

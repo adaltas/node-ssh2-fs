@@ -30,5 +30,5 @@ describe 'writeFile', ->
   they 'pass append flag', ({ssh}) ->
     await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello", flags: 'a'
     await ssh2fs.writeFile ssh, "#{scratch}/a_file", "world", flags: 'a'
-    content = await ssh2fs.readFile ssh, "#{scratch}/a_file", 'utf8'
-    content.should.eql "helloworld"
+    ssh2fs.readFile ssh, "#{scratch}/a_file", 'utf8'
+    .should.resolvedWith "helloworld"
