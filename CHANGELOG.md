@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- createReadStream: support EACCES
+
 ## Version 1.0.3
 
 - createWriteStream: support ENOENT and EISDIR error with SSH

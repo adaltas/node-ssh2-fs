@@ -89,6 +89,12 @@ stream.pipe fs.createWriteStream 'test.in'
                       val.errno = -2
                       val.syscall = 'open'
                       val.path = source
+                    else if val.code is 3 # Not tested, hard to reproduce without a sudo environment
+                      val = new Error "EACCES: permission denied, open '#{source}'"
+                      val.code = 'EACCES'
+                      val.errno = -13
+                      val.syscall = 'open'
+                      val.path = source
                     return emit.call @, 'error', val
                   emit.apply @, arguments
               )(rs.emit)
