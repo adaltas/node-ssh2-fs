@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- mkdir: align errno error property on EEXIST
+
 ## Version 1.0.4
 
 - createReadStream: support EACCES

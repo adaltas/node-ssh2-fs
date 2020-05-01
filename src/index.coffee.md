@@ -266,7 +266,7 @@ TODO: `recursive` is not implemented yet
                 sftp.mkdir path, options, (err, attr) ->
                   if err?.message is 'Failure'
                     err = new Error "EEXIST: file already exists, mkdir '#{path}'"
-                    err.errno = 47
+                    err.errno = -17
                     err.code = 'EEXIST'
                     err.path = path
                   return finish err if err

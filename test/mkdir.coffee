@@ -15,7 +15,7 @@ describe 'mkdir', ->
     .should.be.rejectedWith
       message: "EEXIST: file already exists, mkdir '#{scratch}/new_dir'"
       path: "#{scratch}/new_dir"
-      # errno: 47
+      errno: -17
       code: 'EEXIST'
 
   they 'set mode', ({ssh}) ->
