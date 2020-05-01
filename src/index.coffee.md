@@ -269,6 +269,7 @@ TODO: `recursive` is not implemented yet
                     err.errno = -17
                     err.code = 'EEXIST'
                     err.path = path
+                    err.syscall = 'mkdir'
                   return finish err if err
                   chown()
               chown = ->

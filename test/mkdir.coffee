@@ -17,6 +17,7 @@ describe 'mkdir', ->
       path: "#{scratch}/new_dir"
       errno: -17
       code: 'EEXIST'
+      syscall: 'mkdir'
 
   they 'set mode', ({ssh}) ->
     await ssh2fs.mkdir ssh, "#{scratch}/mode_dir", 0o0714

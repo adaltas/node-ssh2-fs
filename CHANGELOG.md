@@ -3,6 +3,7 @@
 
 ## Trunk
 
+- mkdir: align syscall error property on EEXIST
 - mkdir: align errno error property on EEXIST
 
 ## Version 1.0.4
