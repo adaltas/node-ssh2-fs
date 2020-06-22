@@ -45,11 +45,23 @@ describe 'createWriteStream', ->
         content.should.eql 'a text'
         resolve()
 
-  they 'pass append flag', ({ssh}) ->
+  they 'option `flags`', ({ssh}) ->
     await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
     ws = await ssh2fs.createWriteStream ssh, "#{scratch}/a_file", flags: 'a'
     ws.write 'world'
     ws.end()
-    ws.on 'close', ->
-      ssh2fs.readFile ssh, "#{scratch}/a_file", 'utf8'
-      .should.resolvedWith "helloworld"
+    new Promise (resolve, reject) ->
+      ws.on 'close', ->
+        ssh2fs.readFile ssh, "#{scratch}/a_file", 'utf8'
+        .should.resolvedWith "helloworld"
+        .then resolve
+
+  they 'option `mode`', ({ssh}) ->
+    ws = await ssh2fs.createWriteStream ssh, "#{scratch}/a_file", mode: 0o0611
+    ws.write 'world'
+    ws.end()
+    new Promise (resolve, reject) ->
+      ws.on 'close', ->
+        {mode} = await ssh2fs.stat ssh, "#{scratch}/a_file"
+        mode.toString(8).substr(-3).should.eql '611'
+        resolve()
