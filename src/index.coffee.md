@@ -121,7 +121,7 @@ fs.createReadStream('test.in').pipe stream
 
       createWriteStream: (ssh, path, options = {}) ->
         unless ssh
-          fs.createWriteStream(path, options)
+          fs.createWriteStream path, options
         else
           new Promise (resolve, reject) ->
             # ssh@0.4.x use "_sshstream" and "_sock": ssh@0.3.x use "_state"
@@ -503,12 +503,19 @@ No promise argument is given.
 
 # `ssh2-fs.writeFile(ssh, target, content, [options])`
 
-*   `target` String   
-*   `data` String | Buffer | stream reader   
-*   `options` Object   
-*   `options.encoding` String | Null default = 'utf8'   
-*   `options.mode` Number default = 438 (aka 0666 in Octal)   
-*   `options.flag` String default = 'w'     
+* `target` (string)   
+  Location of the file where to write.
+* `data` String | Buffer | stream reader   
+  String or buffer of the content to be written.
+* `options.encoding` String | Null default = 'utf8'   
+* `options.gid` (integer)   
+  Unix group name or id who owns the target file, not in the original Node.js implementation.   
+* `options.mode` Integer, 0o0666   
+  File mode.
+* `options.flag` String, 'w'   
+  File system flag, such as 'w' and 'a'.
+* `options.uid` (integer)   
+  Unix user name or id who owns the target file, not in the original Node.js implementation.   
 
 Asynchronously writes data to a file, replacing the file if it already exists.
 data can be a string or a buffer.
