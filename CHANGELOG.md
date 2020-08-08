@@ -3,6 +3,7 @@
 
 ## Trunk
 
+- package: raise node.js version
 - mkdir: align syscall error property on EEXIST
 - mkdir: align errno error property on EEXIST
 
