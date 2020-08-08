@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.5
 
 - package: raise node.js version
 - mkdir: align syscall error property on EEXIST
