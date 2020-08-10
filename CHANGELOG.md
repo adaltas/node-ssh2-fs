@@ -1,7 +1,7 @@
 
 # Changelog
 
-## Trunk
+## Version 1.0.6
 
 - package: latest dependencies
 
