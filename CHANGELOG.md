@@ -1,6 +1,10 @@
 
 # Changelog
 
+## Trunk
+
+- package: latest dependencies
+
 ## Version 1.0.5
 
 - package: raise node.js version
