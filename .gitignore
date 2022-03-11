@@ -3,5 +3,6 @@
 /yarn.lock
 /node_modules
 !.gitignore
+!.husky
 !.npmignore
 !.travis.yml
