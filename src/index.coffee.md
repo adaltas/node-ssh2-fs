@@ -18,8 +18,10 @@ Asynchronously changes the permissions of a file. No arguments is returned by th
           fs.promises.chmod path, mode
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -37,8 +39,10 @@ Asynchronously changes owner and group of a file. No arguments is returned by th
           fs.promises.chown path, uid, gid
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock": ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -69,8 +73,10 @@ stream.pipe fs.createWriteStream 'test.in'
           fs.createReadStream source, options
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock": ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -124,8 +130,10 @@ fs.createReadStream('test.in').pipe stream
           fs.createWriteStream path, options
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock": ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -154,12 +162,12 @@ fs.createReadStream('test.in').pipe stream
 
 Command options are:   
 
-*   `ssh`         SSH connection in case of a remote file path.  
-*   `path`        Path to test.   
+* `ssh`         SSH connection in case of a remote file path.  
+* `path`        Path to test.   
 
 Returned value is:   
  
-*   `exists`      True if the file exists.   
+* `exists`      True if the file exists.   
 
 Test whether or not the given path exists by checking with the file system.
 
@@ -172,8 +180,10 @@ Test whether or not the given path exists by checking with the file system.
             false
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; scsh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -192,8 +202,10 @@ Sets the access time and modified time for the resource associated with handle.
           fs.promises.utimes path, atime, mtime
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               end = (err) ->
@@ -218,8 +230,10 @@ that it refers to.
           fs.promises.lstat path
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -257,8 +271,10 @@ TODO: `recursive` is not implemented yet
             fs.promises.chown path, options.uid, options.gid
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -293,8 +309,10 @@ in the directory excluding '.' and '..'.
           fs.promises.readdir path
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -317,10 +335,11 @@ in the directory excluding '.' and '..'.
 
 # `ssh2-fs.readFile(ssh, path, [options])` 
 
-*   `filename` String   
-*   `options` Object   
-*   `options.encoding` String | Null default = null   
-*   `options.flag` String default = 'r'
+* `filename` String   
+* `options` Object | String  
+  A string is intepreted as an encoding.
+* `options.encoding` String | Null default = null   
+* `options.flag` String default = 'r'
 
 Asynchronously reads the entire contents of a file.
 
@@ -332,8 +351,10 @@ Asynchronously reads the entire contents of a file.
         else
           new Promise (resolve, reject) ->
             options.autoClose ?= false # Required after version 0.0.18 (sep 2015)
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -373,8 +394,10 @@ Return the link location.
           fs.promises.readlink path
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -393,8 +416,10 @@ No promise arguments is given.
           fs.promises.rename source, target
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               sftp.unlink target, -> # Required after version 0.0.18 (sep 2015)
@@ -413,9 +438,11 @@ No promise arguments is given.
           fs.promises.rmdir target
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
-            return reject Error 'Closed SSH Connection' unless open
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
+            reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               sftp.rmdir target, (err) ->
                 sftp.end()
@@ -445,8 +472,10 @@ information.
           new Promise (resolve, reject) ->
             # { size: 646, uid: 501, gid: 20, permissions: 16877,
             # atime: 1362003965, mtime: 1359498568 }
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -474,8 +503,10 @@ be normalized to absolute path.
           fs.promises.symlink srcpath, dstpath
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -492,8 +523,10 @@ No promise argument is given.
           fs.unlink path
         else
           new Promise (resolve, reject) ->
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             ssh.sftp (err, sftp) ->
               return reject err if err
@@ -560,8 +593,10 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
         else
           new Promise (resolve, reject) ->
             error = false
-            # ssh@0.4.x use "_sshstream" and "_sock"; ssh@0.3.x use "_state"
-            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable)
+            # ssh@0.3.x use "_state"
+            # ssh@0.4.x use "_sshstream" and "_sock"
+            # ssh@1.7.0 use "ssh._writableState?.ended"
+            open = (ssh._state? and ssh._state isnt 'closed') or (ssh._sshstream?.writable and ssh._sock?.writable) or (ssh._sock?._writableState?.ended is false)
             return reject Error 'Closed SSH Connection' unless open
             unless typeof data is 'string' or Buffer.isBuffer data
               data.on 'error', (err) ->
