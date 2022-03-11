@@ -1,12 +1,12 @@
 
 ssh2fs = require '../src'
-{tmpdir, scratch, they} = require './test'
+{connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
 describe 'ssh', ->
 
-  they 'call after end', ({ssh}) ->
+  they 'call after end', connect ({ssh}) ->
     return unless ssh
     new Promise (resolve, reject) ->
       ssh.end()

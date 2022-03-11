@@ -16,17 +16,17 @@ npm install ssh2-fs
 ## Usage
 
 The API borrows from the `fs.promises` module with the additionnal first
-argument. The  function run locally when "null" or it run over SSH when an
-[`ssh2`][ssh2]  connection. Otherwise the API is strictly the same with a few
+argument. The function run locally when "null" or it run over SSH when an
+[`ssh2`][ssh2] connection. Otherwise the API is strictly the same with a few
 exception due to the SSH2 API:
 
-- The exists function which execute the call with 2 arguments: an error and 
+- The `exists` function which execute the call with 2 arguments: an error and 
   the exists argument.
 - The functions `createReadStream` and `createWriteStream` return a promise with
   a stream argument.
 
 Only the asynchronous functions are ported, we have no plan to support 
-sunchronous functions. Morevover, they are not supported by [`ssh2`].
+synchronous functions. Morevover, they are not supported by [`ssh2`].
 
 Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown", 
 "fchmod", "lchmod", "fstat", "realpath", "rmdir", "close", "open", "utimes", 

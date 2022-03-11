@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 ssh2fs = require '../src'
-{tmpdir, scratch, they} = require './test'
+{connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
@@ -9,7 +9,7 @@ describe 'createWriteStream', ->
   
   describe 'error', ->
 
-    they 'ENOENT if parent dir does not exists', ({ssh}) ->
+    they 'ENOENT if parent dir does not exists', connect ({ssh}) ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createWriteStream ssh, "#{scratch}/not/here", ''
         stream.on 'error', reject
@@ -20,7 +20,7 @@ describe 'createWriteStream', ->
         syscall: 'open'
         path: "#{scratch}/not/here"
 
-    they 'EISDIR if file is a directory', ({ssh}) ->
+    they 'EISDIR if file is a directory', connect ({ssh}) ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createWriteStream ssh, __dirname
         stream.on 'error', reject
@@ -30,7 +30,7 @@ describe 'createWriteStream', ->
         errno: -21
         syscall: 'open'
 
-  they 'pipe into stream reader', ({ssh}) ->
+  they 'pipe into stream reader', connect ({ssh}) ->
     await fs.promises.writeFile "#{scratch}/source", 'a text'
     rs = fs.createReadStream "#{scratch}/source"
     ws = await ssh2fs.createWriteStream ssh, "#{scratch}/target"
@@ -45,7 +45,7 @@ describe 'createWriteStream', ->
         content.should.eql 'a text'
         resolve()
 
-  they 'option `flags`', ({ssh}) ->
+  they 'option `flags`', connect ({ssh}) ->
     await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
     ws = await ssh2fs.createWriteStream ssh, "#{scratch}/a_file", flags: 'a'
     ws.write 'world'
@@ -56,7 +56,7 @@ describe 'createWriteStream', ->
         .should.resolvedWith "helloworld"
         .then resolve
 
-  they 'option `mode`', ({ssh}) ->
+  they 'option `mode`', connect ({ssh}) ->
     ws = await ssh2fs.createWriteStream ssh, "#{scratch}/a_file", mode: 0o0611
     ws.write 'world'
     ws.end()

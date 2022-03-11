@@ -1,7 +1,7 @@
 
 fs = require 'fs'
 ssh2fs = require '../src'
-{tmpdir, scratch, they} = require './test'
+{connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
@@ -9,7 +9,7 @@ describe 'createReadStream', ->
   
   describe 'error', ->
 
-    they 'ENOENT if file does not exists', ({ssh}) ->
+    they 'ENOENT if file does not exists', connect ({ssh}) ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createReadStream ssh, "#{scratch}/not_here"
         stream.on 'error', reject
@@ -21,7 +21,7 @@ describe 'createReadStream', ->
         syscall: 'open'
         path: "#{scratch}/not_here"
 
-    they 'EISDIR if file is a directory', ({ssh}) ->
+    they 'EISDIR if file is a directory', connect ({ssh}) ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createReadStream ssh, __dirname
         stream.on 'error', reject
@@ -34,7 +34,7 @@ describe 'createReadStream', ->
   
   describe 'usage', ->
 
-    they 'pipe to stream writer', ({ssh}) ->
+    they 'pipe to stream writer', connect ({ssh}) ->
       await ssh2fs.writeFile ssh, "#{scratch}/source", 'a text'
       ws = await fs.createWriteStream "#{scratch}/target"
       new Promise (resolve, reject) ->

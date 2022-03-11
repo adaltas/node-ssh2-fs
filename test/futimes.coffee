@@ -1,12 +1,12 @@
 
 ssh2fs = require '../src'
-{tmpdir, scratch, they} = require './test'
+{connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
 describe 'futimes', ->
 
-  they 'change permission', ({ssh}) ->
+  they 'change permission', connect ({ssh}) ->
     await ssh2fs.writeFile ssh, "#{scratch}/a_file", "hello"
     stat1 = await ssh2fs.stat ssh, "#{scratch}/a_file"
     await ssh2fs.futimes ssh, "#{scratch}/a_file", Date.now(), Date.now()

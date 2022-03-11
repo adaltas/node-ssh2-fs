@@ -1,16 +1,16 @@
 
 ssh2fs = require '../src'
-{tmpdir, scratch, they} = require './test'
+{connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
 describe 'rmdir', ->
 
-  they 'a dir', ({ssh}) ->
+  they 'a dir', connect ({ssh}) ->
     await ssh2fs.mkdir ssh, "#{scratch}/a_dir"
     await ssh2fs.rmdir ssh, "#{scratch}/a_dir"
 
-  they 'a missing file', ({ssh}) ->
+  they 'a missing file', connect ({ssh}) ->
     ssh2fs.rmdir ssh, "#{scratch}/a_dir"
     .should.be.rejectedWith
       message: 'ENOENT: no such file or directory, rmdir \'/tmp/ssh2-fs-test/a_dir\''
