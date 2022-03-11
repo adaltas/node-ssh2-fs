@@ -13,6 +13,7 @@ describe 'createReadStream', ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createReadStream ssh, "#{scratch}/not_here"
         stream.on 'error', reject
+        stream.read()
       .should.be.rejectedWith
         message: "ENOENT: no such file or directory, open '#{scratch}/not_here'"
         code: 'ENOENT'
@@ -24,6 +25,7 @@ describe 'createReadStream', ->
       new Promise (resolve, reject) ->
         stream = await ssh2fs.createReadStream ssh, __dirname
         stream.on 'error', reject
+        stream.read()
       .should.be.rejectedWith
         code: 'EISDIR'
         message: "EISDIR: illegal operation on a directory, read"
