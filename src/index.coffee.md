@@ -134,10 +134,10 @@ fs.createReadStream('test.in').pipe stream
                 (key, val) ->
                   if key is 'error'
                     if val.code is 4
-                      val = new Error "EISDIR: illegal operation on a directory, read"
+                      val = new Error "EISDIR: illegal operation on a directory, open '#{path}'"
                       val.errno = -21
                       val.code = 'EISDIR'
-                      val.syscall = 'read'
+                      val.syscall = 'open'
                     else if val.code is 2
                       val = new Error "ENOENT: no such file or directory, open '#{path}'"
                       val.code = 'ENOENT'

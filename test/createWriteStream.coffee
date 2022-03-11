@@ -22,13 +22,13 @@ describe 'createWriteStream', ->
 
     they 'EISDIR if file is a directory', ({ssh}) ->
       new Promise (resolve, reject) ->
-        stream = await ssh2fs.createReadStream ssh, __dirname
+        stream = await ssh2fs.createWriteStream ssh, __dirname
         stream.on 'error', reject
       .should.be.rejectedWith
         code: 'EISDIR'
-        message: "EISDIR: illegal operation on a directory, read"
+        message: "EISDIR: illegal operation on a directory, open '#{__dirname}'"
         errno: -21
-        syscall: 'read'
+        syscall: 'open'
 
   they 'pipe into stream reader', ({ssh}) ->
     await fs.promises.writeFile "#{scratch}/source", 'a text'
