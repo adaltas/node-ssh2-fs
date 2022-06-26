@@ -53,6 +53,9 @@ To run the tests:
 npm test
 ```
 
+The test suite is run online with [Travis][travis] against Node.js version 0.9, 
+0.10 and 0.11.
+
 The tests run against the CoffeeScript source files.
 
 To generate the JavaScript files:
@@ -60,8 +63,12 @@ To generate the JavaScript files:
 make build
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.9, 
-0.10 and 0.11.
+To version and publish:
+
+```bash
+npm run release
+npm publish
+```
 
 ## Contributors
 
