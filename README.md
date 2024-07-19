@@ -63,12 +63,16 @@ To generate the JavaScript files:
 make build
 ```
 
-To version and publish:
+## Release
+
+Versions are incremented using semantic versioning. To create a new version and publish it to NPM, run:
 
 ```bash
 npm run release
 npm publish
 ```
+
+The publication is not(yet) handled by the GitHub action.
 
 ## Contributors
 
