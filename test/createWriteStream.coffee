@@ -1,12 +1,12 @@
 
 fs = require 'fs'
-ssh2fs = require '../src'
+ssh2fs = require '../lib'
 {connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
 describe 'createWriteStream', ->
-  
+
   describe 'error', ->
 
     they 'ENOENT if parent dir does not exists', connect ({ssh}) ->

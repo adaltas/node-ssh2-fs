@@ -1,5 +1,5 @@
 
-ssh2fs = require '../src'
+ssh2fs = require '../lib'
 {connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir

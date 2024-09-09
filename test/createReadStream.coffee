@@ -1,12 +1,12 @@
 
 fs = require 'fs'
-ssh2fs = require '../src'
+ssh2fs = require '../lib'
 {connect, tmpdir, scratch, they} = require './test'
 
 beforeEach tmpdir
 
 describe 'createReadStream', ->
-  
+
   describe 'error', ->
 
     they 'ENOENT if file does not exists', connect ({ssh}) ->
@@ -31,7 +31,7 @@ describe 'createReadStream', ->
         message: "EISDIR: illegal operation on a directory, read"
         errno: -21
         syscall: 'read'
-  
+
   describe 'usage', ->
 
     they 'pipe to stream writer', connect ({ssh}) ->

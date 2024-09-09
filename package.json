@@ -57,10 +57,8 @@
     "url": "https://github.com/adaltas/node-ssh2-fs.git"
   },
   "scripts": {
-    "build": "coffee -b -o lib src",
     "prepare": "husky",
     "prepublishOnly": "git push --follow-tags origin master",
-    "pretest": "npm run build",
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:patch": "standard-version --release-as patch",
