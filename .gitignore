@@ -2,7 +2,7 @@
 /package-lock.json
 /yarn.lock
 /node_modules
+!.github
 !.gitignore
 !.husky
 !.npmignore
-!.travis.yml

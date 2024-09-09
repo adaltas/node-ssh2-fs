@@ -53,12 +53,13 @@ To run the tests:
 npm test
 ```
 
-The test suite is run online with [Travis][travis] against Node.js version 0.9, 
+The test suite is run online with [GitHub actions][https://github.com/adaltas/node-ssh2-fs/actions] against Node.js, 
 0.10 and 0.11.
 
 The tests run against the CoffeeScript source files.
 
 To generate the JavaScript files:
+
 ```bash
 make build
 ```
@@ -69,10 +70,12 @@ Versions are incremented using semantic versioning. To create a new version and 
 
 ```bash
 npm run release
-npm publish
+# Or (`git push` is only supported for the release script)
+npm run release:<major|minor|patch>
+git push --follow-tags origin master
 ```
 
-The publication is not(yet) handled by the GitHub action.
+The NPM publication is handled with the GitHub action.
 
 ## Contributors
 
