@@ -49,6 +49,7 @@ Tests are executed with mocha. To install it, simple run `npm install`, it will 
 mocha and its dependencies in your project "node_modules" directory.
 
 To run the tests:
+
 ```bash
 npm test
 ```

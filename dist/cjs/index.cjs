@@ -1,20 +1,22 @@
-import fs from "node:fs";
-import { opened } from "ssh2-connect";
+'use strict';
+
+var fs = require('node:fs');
+var ssh2Connect = require('ssh2-connect');
 
 /*
 Export native Node.js access, open, type and mode file constants for comfort.
 */
-export const constants = fs.constants;
+const constants = fs.constants;
 
 /*
 Asynchronously changes the permissions of a file. No arguments is returned by the function.
 */
-export const chmod = async function (ssh, path, mode) {
+const chmod = async function (ssh, path, mode) {
   if (!ssh) {
     return fs.promises.chmod(path, mode);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.chmod(path, mode, (err) => {
@@ -31,7 +33,7 @@ export const chmod = async function (ssh, path, mode) {
 
 Asynchronously changes owner and group of a file. No arguments is returned by the function.
 */
-export const chown = async (ssh, path, uid, gid) => {
+const chown = async (ssh, path, uid, gid) => {
   if (!uid && !gid) {
     throw Error('Either option "uid" or "gid" is required');
   }
@@ -39,7 +41,7 @@ export const chown = async (ssh, path, uid, gid) => {
     return fs.promises.chown(path, uid, gid);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.chown(path, uid, gid, (err) => {
@@ -65,12 +67,12 @@ stream = await fs.createReadStream sshOrNull, 'test.out'
 stream.pipe fs.createWriteStream 'test.in'
 ```
 */
-export const createReadStream = async (ssh, source, options = {}) => {
+const createReadStream = async (ssh, source, options = {}) => {
   if (!ssh) {
     return fs.createReadStream(source, options);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) {
           return reject(err);
@@ -132,12 +134,12 @@ stream = await fs.createWriteStream sshOrNull, 'test.out'
 fs.createReadStream('test.in').pipe stream
 ```
 */
-export const createWriteStream = async (ssh, path, options = {}) => {
+const createWriteStream = async (ssh, path, options = {}) => {
   if (!ssh) {
     return fs.createWriteStream(path, options);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         const ws = sftp.createWriteStream(path, options);
@@ -185,7 +187,7 @@ Returned value is:
 
 Test whether or not the given path exists by checking with the file system.
 */
-export const exists = async (ssh, path) => {
+const exists = async (ssh, path) => {
   if (!ssh) {
     try {
       await fs.promises.access(path, fs.constants.F_OK);
@@ -195,7 +197,7 @@ export const exists = async (ssh, path) => {
     }
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.stat(path, (err, attr) => {
@@ -215,12 +217,12 @@ export const exists = async (ssh, path) => {
 
 Sets the access time and modified time for the resource associated with handle.
 */
-export const futimes = (ssh, path, atime, mtime) => {
+const futimes = (ssh, path, atime, mtime) => {
   if (!ssh) {
     return fs.promises.utimes(path, atime, mtime);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         const end = (err) => {
           sftp.end();
@@ -248,12 +250,12 @@ The function returns the fs.Stats object. lstat() is identical to stat(), except
 that if path is a symbolic link, then the link itself is stat-ed, not the file
 that it refers to.
 */
-export const lstat = (ssh, path) => {
+const lstat = (ssh, path) => {
   if (!ssh) {
     return fs.promises.lstat(path);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.lstat(path, (err, attr) => {
@@ -287,7 +289,7 @@ the native Node.js API which only accept a permission mode.
 
 TODO: `recursive` is not implemented yet
 */
-export const mkdir = async (ssh, path, options = 0o0777) => {
+const mkdir = async (ssh, path, options = 0o0777) => {
   if (typeof options !== "object") options = { mode: options };
   if (typeof options.mode === "string")
     options.mode = parseInt(options.mode, 8);
@@ -298,7 +300,7 @@ export const mkdir = async (ssh, path, options = 0o0777) => {
     });
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         const mkdir = () =>
@@ -336,12 +338,12 @@ export const mkdir = async (ssh, path, options = 0o0777) => {
 Reads the contents of a directory and return an array of the names of the files
 in the directory excluding '.' and '..'.
 */
-export const readdir = (ssh, path) => {
+const readdir = (ssh, path) => {
   if (!ssh) {
     return fs.promises.readdir(path);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         const not_a_dir = (err) =>
@@ -380,7 +382,7 @@ Asynchronously reads the entire contents of a file.
 - `options.encoding` String | Null default = null
 - `options.flag` String default = 'r'
 */
-export const readFile = async (ssh, path, options = {}) => {
+const readFile = async (ssh, path, options = {}) => {
   if (typeof options === "string") options = { encoding: options };
   if (!path) throw Error(`Invalid path '${path}'`);
   if (!ssh) {
@@ -388,7 +390,7 @@ export const readFile = async (ssh, path, options = {}) => {
   } else {
     return new Promise((resolve, reject) => {
       options.autoClose ??= false; // Required after version 0.0.18 (sep 2015)
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         const buffers = [];
@@ -430,12 +432,12 @@ export const readFile = async (ssh, path, options = {}) => {
 
 Return the link location.
 */
-export const readlink = async (ssh, path) => {
+const readlink = async (ssh, path) => {
   if (!ssh) {
     return fs.promises.readlink(path);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.readlink(path, (err, target) => {
@@ -452,12 +454,12 @@ export const readlink = async (ssh, path) => {
 
 No promise arguments is given.
 */
-export const rename = async (ssh, source, target) => {
+const rename = async (ssh, source, target) => {
   if (!ssh) {
     return fs.promises.rename(source, target);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         sftp.unlink(target, () => {
           // Required after version 0.0.18 (sep 2015)
@@ -476,12 +478,12 @@ export const rename = async (ssh, source, target) => {
 
 No promise arguments is given.
 */
-export const rmdir = async (ssh, target) => {
+const rmdir = async (ssh, target) => {
   if (!ssh) {
     return fs.promises.rmdir(target);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         sftp.rmdir(target, (err) => {
           sftp.end();
@@ -505,7 +507,7 @@ export const rmdir = async (ssh, target) => {
 The promise return an fs.Stats object. See the fs.Stats section below for more
 information.
 */
-export const stat = async (ssh, path) => {
+const stat = async (ssh, path) => {
   // Not yet test, no way to know if file is a direct or a link
   if (!ssh) {
     // { dev: 16777218, mode: 16877, nlink: 19, uid: 501, gid: 20,
@@ -514,7 +516,7 @@ export const stat = async (ssh, path) => {
     return fs.promises.stat(path);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.stat(path, (err, attr) => {
@@ -541,12 +543,12 @@ platforms). Note that Windows junction points require the target path to
 be absolute. When using 'junction', the target argument will automatically
 be normalized to absolute path.
 */
-export const symlink = async (ssh, srcpath, dstpath) => {
+const symlink = async (ssh, srcpath, dstpath) => {
   if (!ssh) {
     return fs.promises.symlink(srcpath, dstpath);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.symlink(srcpath, dstpath, (err) => {
@@ -563,12 +565,12 @@ export const symlink = async (ssh, srcpath, dstpath) => {
 
 No promise argument is given.
 */
-export const unlink = async (ssh, path) => {
+const unlink = async (ssh, path) => {
   if (!ssh) {
     return fs.unlink(path);
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         sftp.unlink(path, (err) => {
@@ -602,7 +604,7 @@ The encoding option is ignored if data is a buffer. It defaults to 'utf8'.
 - `options.uid` (integer)
   Unix user name or id who owns the target file, not in the original Node.js implementation.
 */
-export const writeFile = async (ssh, target, data, options = {}) => {
+const writeFile = async (ssh, target, data, options = {}) => {
   if (typeof options === "string") options = { encoding: options };
   if (!ssh) {
     return new Promise((resolve, reject) => {
@@ -648,7 +650,7 @@ export const writeFile = async (ssh, target, data, options = {}) => {
     });
   } else {
     return new Promise((resolve, reject) => {
-      if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
+      if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       let error = false;
       if (typeof data !== "string" && !Buffer.isBuffer(data))
         data.on("error", (err) => {
@@ -696,3 +698,22 @@ export const writeFile = async (ssh, target, data, options = {}) => {
     });
   }
 };
+
+exports.chmod = chmod;
+exports.chown = chown;
+exports.constants = constants;
+exports.createReadStream = createReadStream;
+exports.createWriteStream = createWriteStream;
+exports.exists = exists;
+exports.futimes = futimes;
+exports.lstat = lstat;
+exports.mkdir = mkdir;
+exports.readFile = readFile;
+exports.readdir = readdir;
+exports.readlink = readlink;
+exports.rename = rename;
+exports.rmdir = rmdir;
+exports.stat = stat;
+exports.symlink = symlink;
+exports.unlink = unlink;
+exports.writeFile = writeFile;
