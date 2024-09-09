@@ -275,7 +275,7 @@ const lstat = (ssh, path) => {
 `ssh2-fs.mkdir(ssh, path, [options])`
 
 Asynchronously creates a directory then resolves the Promise with either no
-arguments, or the first folder path created if recursive is true. mode defaults to 0777.
+arguments, or the first folder path created if recursive is true.
 
 In SSH, options is an [ATTR SSH2 object][https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md#attrs] && may contains such attributes as
 'uid', 'gid' and 'mode'. If option is not an object, it is considered to be the
@@ -287,7 +287,7 @@ the native Node.js API which only accept a permission mode.
 
 TODO: `recursive` is not implemented yet
 */
-const mkdir = async (ssh, path, options = 0o0777) => {
+const mkdir = async (ssh, path, options) => {
   if (typeof options !== "object") options = { mode: options };
   if (typeof options.mode === "string")
     options.mode = parseInt(options.mode, 8);

@@ -192,7 +192,7 @@ const exists = async (ssh, path) => {
     try {
       await fs.promises.access(path, fs.constants.F_OK);
       return true;
-    } catch (err) {
+    } catch {
       return false;
     }
   } else {
@@ -200,7 +200,7 @@ const exists = async (ssh, path) => {
       if (!ssh2Connect.opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
-        sftp.stat(path, (err, attr) => {
+        sftp.stat(path, (err) => {
           sftp.end();
           // ssh2@0.4.x use err.code; ssh2@0.3.x use err.type
           if (err && err.code !== 2 && err.type !== "NO_SUCH_FILE")
@@ -277,7 +277,7 @@ const lstat = (ssh, path) => {
 `ssh2-fs.mkdir(ssh, path, [options])`
 
 Asynchronously creates a directory then resolves the Promise with either no
-arguments, or the first folder path created if recursive is true. mode defaults to 0777.
+arguments, or the first folder path created if recursive is true.
 
 In SSH, options is an [ATTR SSH2 object][https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md#attrs] && may contains such attributes as
 'uid', 'gid' and 'mode'. If option is not an object, it is considered to be the
@@ -289,7 +289,7 @@ the native Node.js API which only accept a permission mode.
 
 TODO: `recursive` is not implemented yet
 */
-const mkdir = async (ssh, path, options = 0o0777) => {
+const mkdir = async (ssh, path, options) => {
   if (typeof options !== "object") options = { mode: options };
   if (typeof options.mode === "string")
     options.mode = parseInt(options.mode, 8);
@@ -304,7 +304,7 @@ const mkdir = async (ssh, path, options = 0o0777) => {
       ssh.sftp((err, sftp) => {
         if (err) return reject(err);
         const mkdir = () =>
-          sftp.mkdir(path, options, (err, attr) => {
+          sftp.mkdir(path, options, (err) => {
             if (err?.message === "Failure") {
               err = new Error(`EEXIST: file already exists, mkdir '${path}'`);
               err.errno = -17;
@@ -625,7 +625,7 @@ const writeFile = async (ssh, target, data, options = {}) => {
         stream.on("error", (err) => {
           if (!error) reject(err);
         });
-        stream.on("end", () => s.destroy());
+        stream.on("end", () => stream.destroy());
         stream.on("close", () => chown());
       };
       const chown = () => {
