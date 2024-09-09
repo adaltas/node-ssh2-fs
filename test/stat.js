@@ -4,9 +4,9 @@ import { connect, tmpdir, they } from "./test.js";
 const __filename = new URL(import.meta.url).pathname;
 const __dirname = new URL(".", import.meta.url).pathname;
 
-beforeEach(tmpdir);
+describe("stat", function () {
+  beforeEach(tmpdir);
 
-describe("stat", () => {
   they(
     "on file",
     connect(async ({ ssh }) => {

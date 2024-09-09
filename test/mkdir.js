@@ -1,9 +1,9 @@
 import * as ssh2fs from "../lib/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
-beforeEach(tmpdir);
+describe("mkdir", function () {
+  beforeEach(tmpdir);
 
-describe("mkdir", () => {
   they(
     "create a new directory",
     connect(async ({ ssh }) => {

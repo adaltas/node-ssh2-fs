@@ -2,9 +2,9 @@ import fs from "node:fs";
 import * as ssh2fs from "../lib/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
-beforeEach(tmpdir);
+describe("writeFile", function () {
+  beforeEach(tmpdir);
 
-describe("writeFile", () => {
   they(
     "source is buffer",
     connect(async ({ ssh }) => {

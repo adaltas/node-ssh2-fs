@@ -4,10 +4,10 @@ import { connect, tmpdir, scratch, they } from "./test.js";
 
 const __dirname = new URL(".", import.meta.url).pathname;
 
-beforeEach(tmpdir);
+describe("createReadStream", function () {
+  beforeEach(tmpdir);
 
-describe("createReadStream", () => {
-  describe("error", () => {
+  describe("error", function () {
     they(
       "ENOENT if file does not exists",
       connect(async ({ ssh }) => {
@@ -44,12 +44,12 @@ describe("createReadStream", () => {
     );
   });
 
-  describe("usage", () => {
+  describe("usage", function () {
     they(
       "pipe to stream writer",
       connect(async ({ ssh }) => {
         await ssh2fs.writeFile(ssh, `${scratch}/source`, "a text");
-        await new Promise(async (resolve, reject) => {
+        await new Promise((resolve, reject) => {
           const ws = fs
             .createWriteStream(`${scratch}/target`)
             .on("error", reject)

@@ -1,9 +1,9 @@
 import * as ssh2fs from "../lib/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
-beforeEach(tmpdir);
+describe("readFile", function () {
+  beforeEach(tmpdir);
 
-describe("readFile", () => {
   they(
     "return a buffer unless encoding is present",
     connect(async ({ ssh }) => {

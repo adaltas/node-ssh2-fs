@@ -1,9 +1,9 @@
 import * as ssh2fs from "../lib/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
-beforeEach(tmpdir);
+describe("ssh", function () {
+  beforeEach(tmpdir);
 
-describe("ssh", () => {
   they(
     "call after end",
     connect(({ ssh }) => {

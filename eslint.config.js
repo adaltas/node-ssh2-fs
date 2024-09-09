@@ -13,4 +13,9 @@ export default [
   js.configs.recommended,
   mocha.configs.flat.recommended,
   prettier,
+  {
+    rules: {
+      "mocha/no-setup-in-describe": "off",
+    },
+  },
 ];

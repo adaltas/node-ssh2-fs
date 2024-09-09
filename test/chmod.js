@@ -1,9 +1,9 @@
 import * as ssh2fs from "../lib/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
-beforeEach(tmpdir);
+describe("chmod", function () {
+  beforeEach(tmpdir);
 
-describe("chmod", () => {
   they(
     "change permission",
     connect(async ({ ssh }) => {

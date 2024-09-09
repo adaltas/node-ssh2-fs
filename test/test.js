@@ -30,17 +30,18 @@ export const they = ssh2They([
 export const connect =
   (handler) =>
   (...args) =>
-    new Promise(async (resolve, reject) => {
-      let conn = null;
-      try {
-        const ssh = args[0].ssh;
-        if (ssh) conn = await ssh2Connect(ssh);
+    new Promise((resolve, reject) => {
+      const ssh = args[0].ssh;
+      if (!ssh) resolve();
+      ssh2Connect(ssh).then(async (conn) => {
         if (conn) args[0].ssh = conn;
-        await handler.call(this, ...args);
-        resolve();
-      } catch (err) {
-        reject(err);
-      } finally {
-        conn && conn.end();
-      }
+        try {
+          await handler.call(this, ...args);
+          resolve();
+        } catch (err) {
+          reject(err);
+        } finally {
+          conn?.end();
+        }
+      });
     });
