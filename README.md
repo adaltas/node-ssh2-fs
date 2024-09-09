@@ -1,13 +1,14 @@
-[![Build Status](https://secure.travis-ci.org/adaltas/node-ssh2-fs.png)][travis]
-
 # Node.js ssh2-fs
 
-The Node.js ssh2-fs package extends the [`ssh2`][ssh2] module to provide 
-transparent of the `fs` and module either locally or over SSH. 
+[![Build Status](https://img.shields.io/github/actions/workflow/status/adaltas/node-ssh2-fs/test.yml?branch=master)](https://github.com/adaltas/node-ssh2-fs/actions)
+[![NPM](https://img.shields.io/npm/dm/ssh2-fs)](https://www.npmjs.com/package/ssh2-fs)
+[![NPM](https://img.shields.io/npm/v/ssh2-fs)](https://www.npmjs.com/package/ssh2-fs)
+
+The Node.js ssh2-fs package extends the [`ssh2`](https://github.com/mscdex/ssh2) module to provide transparent of the `fs` and module either locally or over SSH.
 
 ## Installation
 
-This is OSS and licensed under the [new BSD license][license].
+This is OSS and licensed under the [MIT license](https://github.com/adaltas/node-ssh2-fs/blob/master/LICENSE.md).
 
 ```bash
 npm install ssh2-fs
@@ -15,21 +16,21 @@ npm install ssh2-fs
 
 ## Usage
 
-The API borrows from the `fs.promises` module with the additionnal first
+The API borrows from the `node:fs.promises` module with the additionnal first
 argument. The function run locally when "null" or it run over SSH when an
-[`ssh2`][ssh2] connection. Otherwise the API is strictly the same with a few
+`ssh2` client connection. Otherwise the API is strictly the same with a few
 exception due to the SSH2 API:
 
-- The `exists` function which execute the call with 2 arguments: an error and 
+- The `exists` function which execute the call with 2 arguments: an error and
   the exists argument.
 - The functions `createReadStream` and `createWriteStream` return a promise with
   a stream argument.
 
-Only the asynchronous functions are ported, we have no plan to support 
+Only the asynchronous functions are ported, we have no plan to support
 synchronous functions. Morevover, they are not supported by [`ssh2`].
 
-Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown", 
-"fchmod", "lchmod", "fstat", "realpath", "rmdir", "close", "open", "utimes", 
+Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown",
+"fchmod", "lchmod", "fstat", "realpath", "rmdir", "close", "open", "utimes",
 "fsync", "write", "read", "appendFile", "watchFile", "unwatchFile", "watch".
 
 ## Examples
@@ -37,10 +38,11 @@ Non (yet) implemented functions are "ftruncate", "truncate", "fchown", "lchown",
 The example is using both the "ssh2-connect" and "ssh2-fs" modules.
 
 ```js
-const connect = require('ssh2-connect');
-const fs = require('ssh2-fs');
-const ssh = await connect({host: 'localhost'});
-await fs.mkdir(ssh, '/tmp/a_dir');
+import connect from "ssh2-connect";
+import fs from "ssh2-fs";
+
+const ssh = await connect({ host: "localhost" });
+await fs.mkdir(ssh, "/tmp/a_dir");
 ```
 
 ## Development
@@ -54,7 +56,7 @@ To run the tests:
 npm test
 ```
 
-The test suite is run online with [GitHub actions][https://github.com/adaltas/node-ssh2-fs/actions] against Node.js, 
+The test suite is run online with [GitHub actions][https://github.com/adaltas/node-ssh2-fs/actions] against Node.js,
 0.10 and 0.11.
 
 The tests run against the CoffeeScript source files.
@@ -80,8 +82,4 @@ The NPM publication is handled with the GitHub action.
 
 ## Contributors
 
-*   David Worms: <https://github.com/wdavidw>
-
-[travis]: http://travis-ci.org/adaltas/node-ssh2-fs
-[ssh2]: https://github.com/mscdex/ssh2
-[license]: https://github.com/adaltas/node-ssh2-fs/blob/master/LICENSE.md
+- David Worms: <https://github.com/wdavidw>
