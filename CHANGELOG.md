@@ -10,16 +10,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [1.1.0](https://github.com/adaltas/node-ssh2-fs/compare/v1.0.6...v1.1.0) (2022-03-11)
 
-
 ### Features
 
-* support latest ssh2 ([6f87e0c](https://github.com/adaltas/node-ssh2-fs/commit/6f87e0c56a939972f86b9ee2c57cb6a18ef7a6be))
-
+- support latest ssh2 ([6f87e0c](https://github.com/adaltas/node-ssh2-fs/commit/6f87e0c56a939972f86b9ee2c57cb6a18ef7a6be))
 
 ### Bug Fixes
 
-* createWriteStream EISDIR error ([f20a185](https://github.com/adaltas/node-ssh2-fs/commit/f20a185374274c6d45f16c5741ebfda182266689))
-
+- createWriteStream EISDIR error ([f20a185](https://github.com/adaltas/node-ssh2-fs/commit/f20a185374274c6d45f16c5741ebfda182266689))
 
 # Changelog
 
