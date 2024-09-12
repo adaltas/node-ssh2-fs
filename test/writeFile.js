@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import * as ssh2fs from "../lib/index.js";
+import * as ssh2fs from "../dist/esm/index.js";
 import { connect, tmpdir, scratch, they } from "./test.js";
 
 describe("writeFile", function () {

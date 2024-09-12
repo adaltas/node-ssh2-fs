@@ -9,6 +9,7 @@
     "@commitlint/config-conventional": "^19.4.1",
     "@commitlint/cz-commitlint": "^19.4.0",
     "@eslint/js": "^9.10.0",
+    "@types/ssh2": "^1.15.1",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-mocha": "^10.5.0",
@@ -22,7 +23,12 @@
     "should": "~13.2.3",
     "ssh2-connect": "^4.0.2",
     "ssh2-exec": "~0.7.7",
-    "standard-version": "^9.5.0"
+    "standard-version": "^9.5.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.0",
+    "typedoc": "^0.26.7",
+    "typedoc-plugin-markdown": "^4.2.7",
+    "typescript": "^5.5.4"
   },
   "engines": {
     "node": ">= 10.0.0"
@@ -65,7 +71,7 @@
     "url": "https://github.com/adaltas/node-ssh2-fs.git"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "tsc --project tsconfig.src.json && rollup -c",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "lint:staged": "npx lint-staged",

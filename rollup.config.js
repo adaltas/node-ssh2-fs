@@ -1,14 +1,11 @@
 export default [
   {
-    input: "lib/index.js",
+    input: "dist/esm/index.js",
     output: [
       {
         file: `dist/cjs/index.cjs`,
         format: "cjs",
-      },
-      {
-        file: `dist/esm/index.js`,
-        format: "esm",
+        sourcemap: true,
       },
     ],
     external: ["node:fs", "ssh2-connect"],

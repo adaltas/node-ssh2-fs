@@ -1,4 +1,4 @@
-import * as ssh2fs from "../lib/index.js";
+import * as ssh2fs from "../dist/esm/index.js";
 import { connect, tmpdir, they } from "./test.js";
 
 const __filename = new URL(import.meta.url).pathname;
