@@ -15,7 +15,7 @@ export const constants = fs.constants;
  * @param mode - File mode to set.
  * @returns Promise that resolves when the operation is complete.
  */
-export const chmod = async function (
+export async function chmod(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
   mode: number,
@@ -39,7 +39,7 @@ export const chmod = async function (
       });
     });
   }
-};
+}
 
 /**
  * Asynchronously changes owner and group of a file.
@@ -50,12 +50,12 @@ export const chmod = async function (
  * @returns Promise that resolves when the operation is complete.
  * @throws Error if neither uid nor gid is provided.
  */
-export const chown = async (
+export async function chown(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
   uid: number,
   gid: number,
-): Promise<void> => {
+): Promise<void> {
   if (!uid && !gid) {
     throw Error('Either option "uid" or "gid" is required');
   }
@@ -78,7 +78,7 @@ export const chown = async (
       });
     });
   }
-};
+}
 
 /**
  * Rejected error by `createReadStream`.
@@ -94,7 +94,7 @@ class ReadStreamError extends Error {
 /**
  * Non exposed options type from `fs.createReadStream`.
  */
-type FsReadStreamOptions = Parameters<typeof fs.createReadStream>[1];
+export type FsReadStreamOptions = Parameters<typeof fs.createReadStream>[1];
 
 /**
  * Creates a readable stream for a file.
@@ -172,16 +172,17 @@ export async function createReadStream<T extends null | ssh2.Client>(
 /**
  * Rejected error by `createReadStream`.
  */
-class WriteStreamError extends Error {
+export class WriteStreamError extends Error {
   code?: string | number;
   errno?: number;
   syscall?: string;
   path?: string;
 }
+
 /**
  * Non exposed options type from `fs.createReadStream`.
  */
-type FsWriteStreamOptions = Parameters<typeof fs.createWriteStream>[1];
+export type FsWriteStreamOptions = Parameters<typeof fs.createWriteStream>[1];
 
 /**
  * Creates a writable stream for a file.
@@ -258,10 +259,10 @@ export async function createWriteStream<T extends null | ssh2.Client>(
  * @param path - Path to test.
  * @returns Promise that resolves with a boolean indicating existence.
  */
-export const exists = async (
+export async function exists(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
-): Promise<boolean> => {
+): Promise<boolean> {
   if (!ssh) {
     try {
       await fs.promises.access(path, fs.constants.F_OK);
@@ -285,7 +286,7 @@ export const exists = async (
       });
     });
   }
-};
+}
 
 /**
  * Sets the access and modification times of a file.
@@ -296,12 +297,12 @@ export const exists = async (
  * @param mtime - Modification time to set.
  * @returns Promise that resolves when the operation is complete.
  */
-export const futimes = (
+export async function futimes(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
   atime: fs.TimeLike,
   mtime: fs.TimeLike,
-): Promise<void> => {
+): Promise<void> {
   if (!ssh) {
     return fs.promises.utimes(path, atime, mtime);
   } else {
@@ -332,7 +333,7 @@ export const futimes = (
       });
     });
   }
-};
+}
 
 /**
  * Retrieves the fs.Stats object for a symbolic link.
@@ -343,10 +344,10 @@ export const futimes = (
  * @param path - Path to the symbolic link.
  * @returns Promise that resolves with the fs.Stats or ssh2.Stats object.
  */
-export const lstat = (
+export async function lstat(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
-): Promise<fs.Stats | ssh2.Stats> => {
+): Promise<fs.Stats | ssh2.Stats> {
   if (!ssh) {
     return fs.promises.lstat(path);
   } else {
@@ -371,7 +372,7 @@ export const lstat = (
       });
     });
   }
-};
+}
 
 /**
  * Options for `mkdir`.
@@ -463,10 +464,10 @@ export const mkdir = async (
  * @param path - Path to the directory.
  * @returns Promise that resolves with an array of file names in the directory.
  */
-export const readdir = (
+export async function readdir(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
-): Promise<string[]> => {
+): Promise<string[]> {
   if (!ssh) {
     return fs.promises.readdir(path);
   } else {
@@ -500,12 +501,12 @@ export const readdir = (
       });
     });
   }
-};
+}
 
 /**
  * Non exposed options type from `fs.promises.readFile`.
  */
-type FsReadFileOptions = Parameters<typeof fs.promises.readFile>[1];
+export type FsReadFileOptions = Parameters<typeof fs.promises.readFile>[1];
 
 /**
  * Reads the entire contents of a file.
@@ -593,10 +594,10 @@ export async function readFile<T extends ssh2.Client | null>(
  * @param path - Path to the symbolic link.
  * @returns Promise that resolves with the link's string value.
  */
-export const readlink = async (
+export async function readlink(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
-): Promise<string> => {
+): Promise<string> {
   if (!ssh) {
     return fs.promises.readlink(path);
   } else {
@@ -616,7 +617,7 @@ export const readlink = async (
       });
     });
   }
-};
+}
 
 /**
  * Renames a file or directory.
@@ -626,11 +627,11 @@ export const readlink = async (
  * @param target - New path for the file or directory.
  * @returns Promise that resolves when the operation is complete.
  */
-export const rename = async (
+export async function rename(
   ssh: ssh2.Client | null,
   source: fs.PathLike,
   target: fs.PathLike,
-): Promise<void> => {
+): Promise<void> {
   if (typeof target !== "string") target = target.toString();
   if (typeof source !== "string") source = source.toString();
   if (!ssh) {
@@ -654,7 +655,7 @@ export const rename = async (
       });
     });
   }
-};
+}
 
 /**
  * Removes a directory.
@@ -663,10 +664,10 @@ export const rename = async (
  * @param target - Path of the directory to remove.
  * @returns Promise that resolves when the operation is complete.
  */
-export const rmdir = async (
+export async function rmdir(
   ssh: ssh2.Client | null,
   target: fs.PathLike,
-): Promise<void> => {
+): Promise<void> {
   if (typeof target !== "string") target = target.toString();
   if (!ssh) {
     return fs.promises.rmdir(target);
@@ -692,7 +693,7 @@ export const rmdir = async (
       });
     });
   }
-};
+}
 
 /**
  * Retrieves the Stats object for a file or directory.
@@ -701,7 +702,7 @@ export const rmdir = async (
  * @param path - Path to the file or directory.
  * @returns Promise that resolves with the fs.Stats or ssh2.Stats object.
  */
-export function stat<T extends null | ssh2.Client>(
+export async function stat<T extends null | ssh2.Client>(
   ssh: T,
   path: fs.PathLike,
 ): Promise<T extends null ? fs.Stats : ssh2.Stats> {
@@ -747,11 +748,11 @@ export function stat<T extends null | ssh2.Client>(
  * @param dstpath - Path where the symbolic link should be created.
  * @returns Promise that resolves when the operation is complete.
  */
-export const symlink = async (
+export async function symlink(
   ssh: ssh2.Client | null,
   srcpath: fs.PathLike,
   dstpath: fs.PathLike,
-): Promise<void> => {
+): Promise<void> {
   if (typeof srcpath !== "string") srcpath = srcpath.toString();
   if (typeof dstpath !== "string") dstpath = dstpath.toString();
   if (!ssh) {
@@ -772,7 +773,7 @@ export const symlink = async (
       });
     });
   }
-};
+}
 
 /**
  * Removes a file.
@@ -781,10 +782,10 @@ export const symlink = async (
  * @param path - Path of the file to remove.
  * @returns Promise that resolves when the operation is complete.
  */
-export const unlink = async (
+export async function unlink(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
-): Promise<void> => {
+): Promise<void> {
   if (typeof path !== "string") path = path.toString();
   if (!ssh) {
     return fs.promises.unlink(path);
@@ -804,12 +805,12 @@ export const unlink = async (
       });
     });
   }
-};
+}
 
 /**
  * Extends the WriteFileOptions with `uid` and `gid` options.
  */
-type WriteFileOptions<T> = (T extends null ? FsWriteStreamOptions
+export type WriteFileOptions<T> = (T extends null ? FsWriteStreamOptions
 : ssh2.WriteStreamOptions) & {
   uid?: number;
   gid?: number;
