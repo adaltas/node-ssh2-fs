@@ -75,6 +75,9 @@
   },
   "scripts": {
     "build": "tsc --project tsconfig.src.json && rollup -c",
+    "docs": "npm run docs:html && npm run docs:md",
+    "docs:html": "typedoc --readme none --out docs/types/html --skipErrorChecking src/index.ts",
+    "docs:md": "typedoc --plugin typedoc-plugin-markdown --readme none --out docs/types/md --skipErrorChecking src/index.ts",
     "lint:check": "eslint",
     "lint:fix": "eslint --fix",
     "lint:staged": "npx lint-staged",
