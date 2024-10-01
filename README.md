@@ -14,6 +14,10 @@ This is OSS and licensed under the [MIT license](https://github.com/adaltas/node
 npm install ssh2-fs
 ```
 
+## Type declaration
+
+The TypeScript documentation is available in the [Markdown](/tree/master/docs/types/md) and [HTLM](/tree/master/docs/types/html) format using [typedoc](https://typedoc.org/).
+
 ## Usage
 
 The API borrows from the `node:fs.promises` module with the additionnal first
