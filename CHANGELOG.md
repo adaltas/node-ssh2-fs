@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/adaltas/node-ssh2-fs/compare/v1.1.3...v1.2.0) (2024-10-01)
+
+### ⚠ BREAKING CHANGES
+
+- convertion to typescript
+- remove default mkdir mode
+- conversion from commonjs to esm
+
+### Features
+
+- export hidden types ([e5312a2](https://github.com/adaltas/node-ssh2-fs/commit/e5312a2e0efc7cc0e8058ffbc9f22cdb5b24f0de))
+- finalize typescript migration ([1ca74b7](https://github.com/adaltas/node-ssh2-fs/commit/1ca74b721ef26822703c1cace0f8390fd0a00474))
+- remove default mkdir mode ([4e509d3](https://github.com/adaltas/node-ssh2-fs/commit/4e509d38920dd5d321d40a3935c42342ef7ff8c2))
+
+### Bug Fixes
+
+- lint errors ([663c206](https://github.com/adaltas/node-ssh2-fs/commit/663c20603b1a5428041da3fbd0a861c07ccd04ec))
+
+- conversion from commonjs to esm ([29df183](https://github.com/adaltas/node-ssh2-fs/commit/29df1835174d11f3f6919bb5ba0921bf2966d8ce))
+- convertion to typescript ([0f75bbb](https://github.com/adaltas/node-ssh2-fs/commit/0f75bbb7b62234f68d462a07c69da7fc5614273e))
+
 ### [1.1.3](https://github.com/adaltas/node-ssh2-fs/compare/v1.1.2...v1.1.3) (2024-07-19)
 
 ### [1.1.2](https://github.com/adaltas/node-ssh2-fs/compare/v1.1.1...v1.1.2) (2022-06-26)
