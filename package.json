@@ -26,6 +26,7 @@
     "ssh2-exec": "~0.8.1",
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
+    "tsup": "^8.3.0",
     "tsx": "^4.19.1",
     "typedoc": "^0.26.7",
     "typedoc-plugin-markdown": "^4.2.8",
@@ -37,9 +38,9 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/esm/index.js",
-      "types": "./dist/types/index.d.ts",
-      "require": "./dist/cjs/index.cjs"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -74,7 +75,7 @@
     "url": "https://github.com/adaltas/node-ssh2-fs.git"
   },
   "scripts": {
-    "build": "tsc --project tsconfig.src.json && rollup -c",
+    "build": "tsup-node",
     "docs": "npm run docs:html && npm run docs:md",
     "docs:html": "typedoc --readme none --out docs/types/html --skipErrorChecking src/index.ts",
     "docs:md": "typedoc --plugin typedoc-plugin-markdown --readme none --out docs/types/md --skipErrorChecking src/index.ts",
