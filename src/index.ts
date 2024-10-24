@@ -394,11 +394,11 @@ export type FsMkdirOptions = fs.MakeDirectoryOptions & {
  * @param options - Options for directory creation.
  * @returns Promise that resolves when the operation is complete.
  */
-export const mkdir = async (
+export async function mkdir(
   ssh: ssh2.Client | null,
   path: fs.PathLike,
   options?: fs.Mode | FsMkdirOptions | ssh2.InputAttributes,
-): Promise<void> => {
+): Promise<void> {
   if (typeof options !== "object") options = { mode: options };
   if (typeof options.mode === "string")
     options.mode = parseInt(options.mode, 8);
@@ -455,7 +455,7 @@ export const mkdir = async (
       });
     });
   }
-};
+}
 
 /**
  * Reads the contents of a directory.
@@ -944,3 +944,25 @@ export async function writeFile<T extends null | ssh2.Client>(
     });
   }
 }
+
+export default {
+  constants,
+  chmod,
+  chown,
+  createReadStream,
+  WriteStreamError,
+  createWriteStream,
+  exists,
+  futimes,
+  lstat,
+  mkdir,
+  readdir,
+  readFile,
+  readlink,
+  rename,
+  rmdir,
+  stat,
+  symlink,
+  unlink,
+  writeFile,
+};
