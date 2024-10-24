@@ -4,7 +4,7 @@
 [![NPM](https://img.shields.io/npm/dm/ssh2-fs)](https://www.npmjs.com/package/ssh2-fs)
 [![NPM](https://img.shields.io/npm/v/ssh2-fs)](https://www.npmjs.com/package/ssh2-fs)
 
-The Node.js ssh2-fs package extends the [`ssh2`](https://github.com/mscdex/ssh2) module to provide transparent of the `fs` and module either locally or over SSH.
+The Node.js ssh2-fs package extends the [`ssh2`](https://github.com/mscdex/ssh2) module to provide transparent usage of the [Node.js `fs` API](https://nodejs.org/api/fs.html) either locally or over SSH.
 
 ## Installation
 
