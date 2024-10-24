@@ -110,12 +110,12 @@ export type FsReadStreamOptions = Parameters<typeof fs.createReadStream>[1];
  * stream.pipe(fs.createWriteStream('test.in'))
  * ```
  */
-export async function createReadStream<T extends null | ssh2.Client>(
+export async function createReadStream<T extends ssh2.Client | null>(
   ssh: T,
   source: fs.PathLike,
   options: T extends null ? FsReadStreamOptions : ssh2.ReadStreamOptions = {},
 ): Promise<T extends null ? fs.ReadStream : ssh2.ReadStream> {
-  if (ssh === null) {
+  if (!ssh) {
     return Promise.resolve(fs.createReadStream(source, options)) as Promise<
       T extends null ? fs.ReadStream : ssh2.ReadStream
     >;
@@ -708,7 +708,7 @@ export async function stat<T extends null | ssh2.Client>(
 ): Promise<T extends null ? fs.Stats : ssh2.Stats> {
   if (typeof path !== "string") path = path.toString();
   // Not yet test, no way to know if file is a direct or a link
-  if (ssh === null) {
+  if (!ssh) {
     // { dev: 16777218, mode: 16877, nlink: 19, uid: 501, gid: 20,
     // rdev: 0, blksize: 4096, ino: 1736226, size: 646, blocks: 0,
     // atime: Wed Feb 27 2013 23:25:07 GMT+0100 (CET), mtime: Tue Jan 29 2013 23:29:28 GMT+0100 (CET), ctime: Tue Jan 29 2013 23:29:28 GMT+0100 (CET) }
