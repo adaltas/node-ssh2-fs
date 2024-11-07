@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/adaltas/node-ssh2-fs/compare/v1.2.2...v1.3.0) (2024-11-07)
+
+### Features
+
+- default export ([157cdd1](https://github.com/adaltas/node-ssh2-fs/commit/157cdd1415de1cc1440dee468c091a3364f07539))
+- relax ssh null check ([9214112](https://github.com/adaltas/node-ssh2-fs/commit/92141121dacbd079e7a8a4cbb1da6ef084821c03))
+
 ### [1.2.2](https://github.com/adaltas/node-ssh2-fs/compare/v1.2.1...v1.2.2) (2024-10-24)
 
 ### [1.2.1](https://github.com/adaltas/node-ssh2-fs/compare/v1.2.0...v1.2.1) (2024-10-01)
