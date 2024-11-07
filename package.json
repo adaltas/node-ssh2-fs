@@ -20,7 +20,6 @@
     "mocha": "~10.7.3",
     "mocha-they": "^0.1.10",
     "prettier": "^3.3.3",
-    "rollup": "^4.24.0",
     "should": "~13.2.3",
     "ssh2-connect": "^4.1.1",
     "ssh2-exec": "~0.8.4",
