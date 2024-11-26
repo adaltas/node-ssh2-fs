@@ -123,9 +123,7 @@ export async function createReadStream<T extends ssh2.Client | null>(
     return new Promise((resolve, reject) => {
       if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
-        if (err) {
-          return reject(err);
-        }
+        if (err) return reject(err);
         if (typeof source !== "string") source = source.toString();
         const rs = sftp.createReadStream(
           source,
@@ -309,6 +307,7 @@ export async function futimes(
     return new Promise<void>((resolve, reject) => {
       if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
       ssh.sftp((err, sftp) => {
+        if (err) return reject(err);
         const end = (err: Error | undefined | null) => {
           sftp.end();
           if (err) {
@@ -317,14 +316,13 @@ export async function futimes(
             resolve();
           }
         };
-        if (err) return end;
         if (typeof path !== "string") path = path.toString();
         sftp.open(path, "r", (err, fd) => {
-          if (err) return end;
+          if (err) return end(err);
           if (typeof atime === "string") atime = parseInt(atime, 10);
           if (typeof mtime === "string") mtime = parseInt(mtime, 10);
           sftp.futimes(fd, atime, mtime, (err) => {
-            if (err) return end;
+            if (err) return end(err);
             sftp.close(fd, (err) => {
               end(err);
             });
@@ -675,7 +673,8 @@ export async function rmdir(
   } else {
     return new Promise<void>((resolve, reject) => {
       if (!opened(ssh)) return reject(Error("Closed SSH Connection"));
-      ssh.sftp((_, sftp) => {
+      ssh.sftp((err, sftp) => {
+        if (err) return reject(err);
         sftp.rmdir(target, (err: ReadStreamError | undefined | null) => {
           sftp.end();
           if (err && (err.type === "NO_SUCH_FILE" || err.code === 2)) {
