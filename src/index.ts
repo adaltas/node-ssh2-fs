@@ -451,7 +451,8 @@ export async function mkdir(
               }),
           )
           .then(resolve)
-          .catch(reject);
+          .catch(reject)
+          .finally(() => sftp.end());
       });
     });
   }
