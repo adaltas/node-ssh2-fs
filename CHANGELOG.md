@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/adaltas/node-ssh2-fs/compare/v1.3.1...v1.3.2) (2024-11-27)
+
+### Bug Fixes
+
+- close sftp channel in mkdir ([54e2c6d](https://github.com/adaltas/node-ssh2-fs/commit/54e2c6dadbd25dc2cb2717a06ca932a9067e1275))
+- sftp error in rmdir ([2349ff0](https://github.com/adaltas/node-ssh2-fs/commit/2349ff09d6b569e8b3a4ddbf32c412ad790c4803))
+
 ### [1.3.1](https://github.com/adaltas/node-ssh2-fs/compare/v1.3.0...v1.3.1) (2024-11-07)
 
 ## [1.3.0](https://github.com/adaltas/node-ssh2-fs/compare/v1.2.2...v1.3.0) (2024-11-07)
