@@ -57,7 +57,7 @@
     "*.js": "npm run lint:fix",
     "*.md": "prettier -w"
   },
-  "main": "./lib/index",
+  "main": "./dist/index.js",
   "mocha": {
     "inline-diffs": true,
     "import": "tsx",
