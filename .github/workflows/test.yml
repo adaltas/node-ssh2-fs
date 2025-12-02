@@ -32,5 +32,5 @@ jobs:
       - run: sudo apt install -y openssh-server && sudo systemctl start ssh
       - run: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N ''
       - run: cat ~/.ssh/id_ed25519.pub > ~/.ssh/authorized_keys
-      - run: yarn --frozen-lockfile
-      - run: yarn run test
+      - run: npm ci
+      - run: npm run test
