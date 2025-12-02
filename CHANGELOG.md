@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/adaltas/node-ssh2-fs/compare/v1.3.3...v1.4.0) (2025-12-02)
+
+### Features
+
+- main usage of dist folder ([6acfae7](https://github.com/adaltas/node-ssh2-fs/commit/6acfae73f4279a1c52a420b5cd892f32d1d82ce5))
+
 ### [1.3.3](https://github.com/adaltas/node-ssh2-fs/compare/v1.3.2...v1.3.3) (2024-11-28)
 
 ### [1.3.2](https://github.com/adaltas/node-ssh2-fs/compare/v1.3.1...v1.3.2) (2024-11-27)
