@@ -24,7 +24,6 @@
     "ssh2-connect": "^4.2.0",
     "ssh2-exec": "~0.8.4",
     "standard-version": "^9.5.0",
-    "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typedoc": "^0.28.15",
